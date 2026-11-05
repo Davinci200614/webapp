@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="fr" data-operator="true" data-login-path="/cooperative" class="awaiting-auth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5ef">
+  <meta name="description" content="Gérez les machines et demandes de location de votre coopérative sur Machinati.">
+  <title>Machinati — Espace coopérative</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f6f5ef;
+      --white: #fffefa;
+      --ink: #20291f;
+      --muted: #73796e;
+      --green: #24583d;
+      --green-dark: #193d2c;
+      --green-pale: #e8eee5;
+      --lime: #d3e075;
+      --orange: #d66b43;
+      --line: #e5e5db;
+      --serif: "Instrument Serif", Georgia, serif;
+      --sans: "DM Sans", "Trebuchet MS", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 14px; -webkit-font-smoothing: antialiased; }
+    button, input, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
+    .topline { background: var(--green-dark); color: #e8eddf; font-size: 11px; }
+    .topline-inner { min-height: 34px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .topline strong { color: var(--lime); }
+    .topline a { color: #e8eddf; }
+    .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; }
+    .brand-mark { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 9px; background: var(--green); color: var(--lime); font-size: 17px; }
+    .brand small { display: block; margin-top: 1px; color: var(--muted); font-size: 9px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+    .nav-links { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; color: #485046; font-size: 12px; font-weight: 600; }
+    .nav-links a:hover { color: var(--green); }
+    .button { display: inline-flex; min-height: 40px; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 4px; padding: 0 14px; font-size: 11px; font-weight: 700; cursor: pointer; transition: background .18s ease, transform .18s ease; }
+    .button:hover { transform: translateY(-1px); }
+    .button-primary { background: var(--green); color: #fff; }
+    .button-primary:hover { background: var(--green-dark); }
+    main { padding-block: 35px 58px; }
+    .page-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 22px; }
+    .eyebrow { color: var(--orange); font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
+    h1 { margin: 7px 0 5px; font-size: 30px; font-weight: 600; line-height: 1.2; }
+    .page-heading p { margin: 0; color: var(--muted); font-size: 12px; }
+    .verified { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; border-radius: 3px; padding: 6px 8px; background: var(--green-pale); color: var(--green); vertical-align: middle; font-size: 9px; font-weight: 700; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+    .stat { padding: 14px 16px; border: 1px solid var(--line); border-radius: 5px; background: var(--white); }
+    .stat span { display: block; color: var(--muted); font-size: 10px; }
+    .stat strong { display: block; margin-top: 5px; color: var(--green-dark); font-size: 22px; }
+    .columns { display: grid; grid-template-columns: 1.05fr .95fr; align-items: start; gap: 15px; }
+    .panel { min-width: 0; border: 1px solid var(--line); border-radius: 5px; background: var(--white); }
+    .panel + .panel { margin-top: 15px; }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+    .panel-head h2 { margin: 0; font-size: 13px; font-weight: 700; }
+    .panel-head small { color: var(--muted); font-size: 9px; }
+    .list { margin: 0; padding: 0; list-style: none; }
+    .request, .machine, .schedule-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 16px; border-bottom: 1px solid #eeefe8; }
+    .request:last-child, .machine:last-child, .schedule-item:last-child { border-bottom: 0; }
+    .item-main { min-width: 0; }
+    .item-main strong { display: block; overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .item-main span { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; }
+    .request-actions { display: flex; flex: 0 0 auto; gap: 5px; }
+    .request-actions[hidden] { display: none; }
+    .small-button { min-height: 30px; border: 1px solid var(--line); border-radius: 3px; padding: 0 8px; background: transparent; color: var(--green); font-size: 9px; font-weight: 700; cursor: pointer; }
+    .small-button:hover { border-color: var(--green); background: var(--green-pale); }
+    .small-button.reject { color: #a44f35; }
+    .status { flex: 0 0 auto; border-radius: 3px; padding: 5px 7px; background: #f1f2eb; color: #646b60; font-size: 9px; font-weight: 700; }
+    .status.pending { background: #f8edda; color: #8c5b19; }
+    .status.available, .status.accepted { background: var(--green-pale); color: var(--green); }
+    .add-form { display: grid; grid-template-columns: 1.4fr 1fr .8fr 1fr auto; gap: 7px; padding: 12px 14px; border-bottom: 1px solid var(--line); background: #fafaf6; }
+    .add-form[hidden] { display: none; }
+    .add-form input, .add-form select { min-width: 0; height: 35px; border: 1px solid #dfe1d7; border-radius: 3px; padding: 0 8px; background: #fff; color: var(--ink); font-size: 10px; }
+    .add-form .button { min-height: 35px; padding-inline: 10px; font-size: 10px; }
+    .machine .item-main { flex: 1; }
+    .machine-rate { flex: 0 0 auto; color: var(--green-dark); font-size: 10px; font-weight: 700; }
+    .schedule-date { flex: 0 0 48px; color: var(--orange); font-size: 10px; font-weight: 700; }
+    .schedule-copy { flex: 1; min-width: 0; }
+    .iot-panel { margin-top: 15px; overflow: hidden; border-radius: 5px; background: var(--green-dark); color: #fff; }
+    .iot-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,.15); }
+    .iot-head h2 { margin: 0; font-size: 13px; }
+    .sensor { display: inline-flex; align-items: center; gap: 6px; color: var(--lime); font-size: 9px; font-weight: 700; }
+    .sensor i { width: 6px; height: 6px; border-radius: 50%; background: #9acb74; }
+    .iot-content { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 18px; padding: 14px 16px; }
+    .iot-content p { margin: 0; color: #cbd6c5; font-size: 10px; line-height: 1.6; }
+    .iot-metrics { display: flex; gap: 22px; }
+    .iot-metrics span { display: block; color: #cbd6c5; font-size: 9px; }
+    .iot-metrics strong { display: block; margin-top: 4px; color: var(--lime); font-size: 15px; }
+    .alert { padding: 11px 16px; border-top: 1px solid rgba(255,255,255,.15); color: #f2dfb6; font-size: 10px; }
+    .demo-note { margin: 10px 0 0; color: #858b80; font-size: 9px; }
+    .notice { position: fixed; right: 18px; bottom: 18px; z-index: 3; max-width: min(360px, calc(100vw - 36px)); transform: translateY(12px); opacity: 0; pointer-events: none; border-radius: 4px; padding: 11px 14px; background: var(--green-dark); color: white; font-size: 11px; transition: opacity .2s ease, transform .2s ease; }
+    .notice.visible { transform: translateY(0); opacity: 1; }
+    footer { padding-block: 15px; background: var(--green-dark); color: #cbd6c5; font-size: 9px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 12px; }
+
+    @media (max-width: 900px) {
+      .columns { grid-template-columns: 1fr; }
+      .add-form { grid-template-columns: repeat(2, 1fr); }
+      .add-form .button { grid-column: 1 / -1; }
+    }
+    @media (max-width: 600px) {
+      .wrap { width: calc(100% - 30px); }
+      .topline-inner { justify-content: center; text-align: center; }
+      .topline-inner span + span { display: none; }
+      .nav { align-items: start; flex-direction: column; gap: 12px; padding-block: 14px; }
+      .nav-links { gap: 8px 16px; font-size: 11px; }
+      main { padding-block: 25px 40px; }
+      .page-heading { align-items: start; flex-direction: column; gap: 14px; }
+      h1 { font-size: 25px; }
+      .stats { gap: 6px; }
+      .stat { padding: 10px 8px; }
+      .stat span { font-size: 8px; }
+      .stat strong { font-size: 18px; }
+      .panel-head, .request, .machine, .schedule-item { padding-inline: 11px; }
+      .request { align-items: start; flex-direction: column; gap: 8px; }
+      .request-actions { flex-wrap: wrap; }
+      .iot-content { grid-template-columns: 1fr; }
+      .iot-metrics { gap: 18px; }
+      .footer-inner { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+<style>.awaiting-auth body{visibility:hidden}</style><script src="./bridge.js"></script></head>
+<body>
+  <div class="topline"><div class="wrap topline-inner"><span><strong>Machinati · Espace partenaire</strong></span><span>Données backend</span></div></div>
+  <header class="wrap nav">
+    <div class="brand" aria-label="Machinati, espace coopérative"><span class="brand-mark">M.</span><span>MACHINATI<small>Espace coopérative</small></span></div>
+    <nav class="nav-links" aria-label="Navigation coopérative">
+      <a href="#demandes">Demandes</a>
+      <a href="#materiel">Mon matériel</a>
+      <a href="#planning">Planning</a>
+      <a href="#suivi">Suivi IoT</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <header class="page-heading">
+      <div>
+        <span class="eyebrow">Tableau de bord partenaire</span>
+        <h1>Espace coopérative</h1>
+        <p>Les demandes envoyées ici sont coordonnées par Machinati.</p>
+      </div>
+      <button class="button button-primary" id="toggleMachineForm" type="button" onclick="window.top.location.href='/machines'">Gérer les machines</button>
+    </header>
+
+    <section class="stats" aria-label="Résumé de l'activité">
+      <div class="stat"><span>Demandes à traiter</span><strong id="pendingCount">0</strong></div>
+      <div class="stat"><span>Machines disponibles</span><strong id="availableCount">0</strong></div>
+      <div class="stat"><span>Demandes terminées</span><strong id="completedCount">0</strong></div>
+    </section>
+
+    <div class="columns">
+      <section class="panel" id="demandes" aria-labelledby="requestsTitle">
+        <div class="panel-head"><h2 id="requestsTitle">Demandes reçues</h2><small>Transmises par Machinati</small></div>
+        <ul class="list" id="cooperativeRequests"></ul>
+      </section>
+
+      <div>
+        <section class="panel" id="materiel" aria-labelledby="inventoryTitle">
+          <div class="panel-head"><h2 id="inventoryTitle">Matériel de la coopérative</h2><small id="machineCount">0 machine</small></div>
+          <ul class="list" id="cooperativeInventory"></ul>
+        </section>
+
+        <section class="panel" id="planning" aria-labelledby="planningTitle">
+          <div class="panel-head"><h2 id="planningTitle">Demandes approuvées</h2><small>Dates souhaitées</small></div>
+          <ul class="list" id="scheduleList"></ul>
+        </section>
+      </div>
+    </div>
+
+    <section class="iot-panel" id="suivi" aria-labelledby="iotTitle">
+      <div class="iot-head"><h2 id="iotTitle">Suivi des machines</h2><span class="sensor">API IoT non disponible</span></div>
+      <div class="iot-content">
+        <p>Les données de localisation, d'utilisation et d'entretien ne sont pas encore fournies par le backend.</p>
+      </div>
+      <div class="alert">Aucune télémétrie n'est disponible pour le moment.</div>
+    </section>
+    <p class="demo-note">Les demandes et le matériel sont chargés depuis le backend.</p>
+  </main>
+
+  <footer><div class="wrap footer-inner"><span>© 2026 Machinati · Espace coopérative</span><span>Gestion des demandes</span></div></footer>
+  <div class="notice" id="notice" role="status" aria-live="polite"></div>
+
+  <script>
+window.machinatiReady.then(ready => { if (!ready) return;
+    const requestList = document.getElementById("cooperativeRequests");
+    const inventoryList = document.getElementById("cooperativeInventory");
+    const scheduleList = document.getElementById("scheduleList");
+    const apiBaseUrl = "";
+    const statusLabels = { draft: "Brouillon", pending_review: "À traiter", approved: "Approuvée", rejected: "Refusée", completed: "Terminée" };
+    let noticeTimer;
+
+    function element(tag, className, text) {
+      const node = document.createElement(tag);
+      if (className) node.className = className;
+      if (text != null) node.textContent = text;
+      return node;
+    }
+
+    window.machinatiNotice = showNotice;
+    function showNotice(message) {
+      const notice = document.getElementById("notice");
+      notice.textContent = message;
+      notice.classList.add("visible");
+      clearTimeout(noticeTimer);
+      noticeTimer = setTimeout(() => notice.classList.remove("visible"), 3200);
+    }
+
+    async function getJson(path, options) {
+      const response = await fetch(`${apiBaseUrl}${path}`, options);
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        throw new Error(body.detail || `Erreur API (${response.status})`);
+      }
+      return response.json();
+    }
+
+    function renderRequests(requests) {
+      requestList.replaceChildren();
+      for (const request of requests) {
+        const payload = request.payload || {};
+        const row = element("li", "request");
+        row.dataset.request = "";
+        row.dataset.requestId = String(request.id);
+        const details = element("div", "item-main");
+        details.append(
+          element("strong", "", payload.machine_type || payload.operation || "Matériel non précisé"),
+          element("span", "", [request.farmer_phone, payload.preferred_date || payload.preferred_date_text, payload.location].filter(Boolean).join(" · ")),
+        );
+        const status = element("span", `status ${request.status === "pending_review" ? "pending" : request.status === "approved" ? "accepted" : ""}`, statusLabels[request.status] || request.status);
+        status.dataset.requestStatus = "";
+        row.append(details, status);
+        if (request.status === "pending_review") {
+          const actions = element("div", "request-actions");
+          actions.innerHTML = '<button class="small-button" type="button" data-request-action="approved">Accepter</button><button class="small-button" type="button" data-request-action="dates">Autres dates</button><button class="small-button reject" type="button" data-request-action="rejected">Refuser</button>';
+          row.append(actions);
+        }
+        requestList.append(row);
+      }
+      document.getElementById("pendingCount").textContent = requests.filter((request) => request.status === "pending_review").length;
+      document.getElementById("completedCount").textContent = requests.filter((request) => request.status === "completed").length;
+      scheduleList.replaceChildren();
+      for (const request of requests.filter((item) => item.status === "approved")) {
+        const payload = request.payload || {};
+        const item = element("li", "schedule-item");
+        item.append(element("span", "schedule-date", payload.preferred_date || "Confirmée"));
+        const details = element("div", "item-main schedule-copy");
+        details.append(
+          element("strong", "", payload.machine_type || payload.operation || "Matériel non précisé"),
+          element("span", "", [request.farmer_phone, payload.location].filter(Boolean).join(" · ")),
+        );
+        item.append(details);
+        scheduleList.append(item);
+      }
+    }
+
+    function renderMachines(machines) {
+      inventoryList.replaceChildren();
+      for (const machine of machines) {
+        const item = element("li", "machine");
+        const details = element("div", "item-main");
+        details.append(
+          element("strong", "", machine.name),
+          element("span", "", [machine.machine_type, machine.location].filter(Boolean).join(" · ")),
+        );
+        const rate = element("span", "machine-rate", machine.hourly_rate == null ? "Tarif à confirmer" : `${Number(machine.hourly_rate).toLocaleString("fr-FR")} MAD / h`);
+        const availability = element("span", `status${machine.available && !machine.reserved_for_own_use ? " available" : ""}`, machine.available && !machine.reserved_for_own_use ? "Disponible" : "Indisponible");
+        item.append(details, rate, availability);
+        inventoryList.append(item);
+      }
+      document.getElementById("machineCount").textContent = `${machines.length} machines`;
+      document.getElementById("availableCount").textContent = machines.filter((machine) => Boolean(machine.available) && !machine.reserved_for_own_use).length;
+    }
+
+    async function loadDashboard() {
+      try {
+        const [requests, machines] = await Promise.all([
+          getJson("/api/requests"),
+          getJson("/api/machines"),
+        ]);
+        renderRequests(requests);
+        renderMachines(machines);
+      } catch (error) {
+        showNotice(`Impossible de charger les données : ${error.message}`);
+      }
+    }
+
+    requestList.addEventListener("click", async (event) => {
+      const button = event.target.closest("[data-request-action]");
+      if (!button) return;
+      const action = button.dataset.requestAction;
+      if (action === "dates") {
+        showNotice("La proposition d'autres dates n'est pas encore disponible dans l'API.");
+        return;
+      }
+      button.disabled = true;
+      try {
+        await getJson(`/api/requests/${button.closest("[data-request]").dataset.requestId}/status`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: action }),
+        });
+        showNotice(action === "approved" ? "Demande approuvée." : "Demande refusée.");
+        await loadDashboard();
+      } catch (error) {
+        showNotice(`Mise à jour impossible : ${error.message}`);
+        button.disabled = false;
+      }
+    });
+
+    loadDashboard();
+    setInterval(loadDashboard, 10000);
+
+});
+  </script>
+</body>
+</html>

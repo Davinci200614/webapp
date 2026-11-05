@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="fr" data-operator="false" data-login-path="/operations">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5ef">
+  <meta name="description" content="Louez du matériel agricole près de chez vous. Réservation simple, suivi d'usage transparent et accompagnement vocal.">
+  <title>Machinati — Le matériel agricole, à portée de main</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f6f5ef;
+      --white: #fffefa;
+      --ink: #20291f;
+      --muted: #73796e;
+      --green: #24583d;
+      --green-dark: #193d2c;
+      --green-pale: #e8eee5;
+      --lime: #d3e075;
+      --orange: #d66b43;
+      --line: #e5e5db;
+      --serif: "Instrument Serif", Georgia, serif;
+      --sans: "DM Sans", "Trebuchet MS", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 15px; -webkit-font-smoothing: antialiased; }
+    button, input, select, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { color: inherit; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1200px, calc(100% - 64px)); margin-inline: auto; }
+    .topline { background: var(--green-dark); color: #e8eddf; font-size: 11px; letter-spacing: .3px; }
+    .topline-inner { min-height: 34px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .topline strong { color: var(--lime); font-weight: 700; }
+    .topline-right { display: flex; align-items: center; gap: 20px; }
+    .topline a { color: #e8eddf; }
+    .nav { height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 21px; font-weight: 800; letter-spacing: -.7px; }
+    .brand-mark { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 11px; background: var(--green); color: var(--lime); font-size: 17px; font-weight: 700; }
+    .brand small { display: block; margin-top: 1px; color: var(--muted); font-size: 9px; font-weight: 600; letter-spacing: 1.15px; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 30px; color: #485046; font-size: 13px; font-weight: 600; }
+    .nav-links a:hover, .footer a:hover { color: var(--green); }
+    .nav-actions { display: flex; align-items: center; gap: 11px; }
+    .button { display: inline-flex; min-height: 42px; align-items: center; justify-content: center; gap: 9px; border: 0; border-radius: 5px; padding: 0 17px; font-size: 13px; font-weight: 700; cursor: pointer; transition: background .18s ease, transform .18s ease, color .18s ease; }
+    .button:hover { transform: translateY(-1px); }
+    .button-primary { background: var(--green); color: white; }
+    .button-primary:hover { background: var(--green-dark); }
+    .button-light { border: 1px solid var(--line); background: transparent; }
+    .button-light:hover { background: var(--white); }
+    .button-cream { background: var(--lime); color: var(--green-dark); }
+    .mobile-menu { display: none; border: 1px solid var(--line); background: var(--white); border-radius: 5px; width: 42px; height: 42px; font-size: 19px; cursor: pointer; }
+
+    .hero { position: relative; overflow: hidden; min-height: 405px; display: grid; grid-template-columns: 1.02fr .98fr; background: var(--green-dark); color: white; border-radius: 8px; }
+    .hero-copy { position: relative; z-index: 1; align-self: center; padding: 48px 24px 60px 54px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: #bed093; font-size: 10px; font-weight: 700; letter-spacing: 1.35px; text-transform: uppercase; }
+    .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); }
+    .hero h1 { max-width: 550px; margin: 19px 0 12px; font-size: clamp(42px, 5vw, 62px); font-weight: 500; line-height: .99; letter-spacing: 0; }
+    .hero h1 em { color: var(--lime); font-family: var(--serif); font-size: 1.14em; font-weight: 400; }
+    .hero-copy > p { max-width: 430px; margin: 18px 0 23px; color: #d3dbd1; font-size: 14px; line-height: 1.75; }
+    .hero-cta { display: flex; align-items: center; gap: 18px; }
+    .hero-note { display: flex; align-items: center; gap: 8px; color: #d3dbd1; font-size: 11px; }
+    .hero-note b { color: var(--lime); font-size: 15px; }
+    .hero-photo { position: relative; min-height: 405px; background: #64744d; }
+    .hero-photo::before { position: absolute; z-index: 1; inset: 0; background: linear-gradient(90deg, var(--green-dark) 0%, rgba(25,61,44,.3) 24%, rgba(25,61,44,0) 58%), linear-gradient(0deg, rgba(20,36,23,.32), transparent 50%); content: ""; }
+    .hero-photo img { width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; object-position: center; }
+    .hero-float { position: absolute; z-index: 2; right: 28px; bottom: 23px; display: flex; align-items: center; gap: 12px; padding: 12px 15px; border: 1px solid rgba(255,255,255,.55); border-radius: 5px; background: rgba(255,254,250,.94); color: var(--ink); box-shadow: 0 8px 26px rgba(0,0,0,.12); }
+    .float-icon { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: var(--green-pale); color: var(--green); font-size: 16px; }
+    .hero-float strong { display: block; font-size: 12px; }
+    .hero-float span { display: block; margin-top: 3px; color: var(--muted); font-size: 10px; }
+
+    .search-panel { position: relative; z-index: 3; display: grid; grid-template-columns: 1.3fr 1fr 1fr auto; align-items: center; gap: 0; margin-top: -28px; padding: 9px; border: 1px solid var(--line); border-radius: 7px; background: var(--white); box-shadow: 0 12px 28px rgba(35,47,30,.08); }
+    .search-field { min-width: 0; display: flex; align-items: center; gap: 11px; padding: 6px 17px; border-right: 1px solid var(--line); }
+    .field-symbol { color: var(--green); font-size: 17px; }
+    .search-field label { display: block; margin-bottom: 3px; color: var(--muted); font-size: 10px; font-weight: 600; }
+    .search-field input, .search-field select { display: block; width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 13px; font-weight: 600; }
+    .search-field select { cursor: pointer; }
+    .search-panel .button { min-height: 48px; margin-right: 1px; padding-inline: 24px; }
+
+    .trust-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 30px 0 26px; border-bottom: 1px solid var(--line); }
+    .trust-item { display: flex; align-items: center; gap: 10px; color: #565e53; font-size: 11px; font-weight: 600; }
+    .trust-symbol { width: 29px; height: 29px; display: grid; place-items: center; border-radius: 50%; background: #e8eee5; color: var(--green); font-size: 13px; }
+    .section { padding: 55px 0 60px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
+    .section-kicker { color: var(--orange); font-size: 10px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; }
+    .section h2 { margin: 7px 0 0; font-size: 31px; font-weight: 600; line-height: 1.17; letter-spacing: -.8px; }
+    .section h2 em { color: var(--green); font-family: var(--serif); font-size: 1.14em; font-weight: 400; }
+    .section-head p { margin: 0 0 2px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .text-link { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; color: var(--green); font-size: 12px; font-weight: 700; }
+    .text-link:hover { color: var(--orange); }
+    .categories { display: flex; align-items: center; gap: 8px; overflow-x: auto; padding: 1px 0 17px; scrollbar-width: thin; }
+    .category-chip { flex: 0 0 auto; border: 1px solid var(--line); border-radius: 4px; padding: 9px 13px; background: transparent; color: #5e655a; font-size: 11px; font-weight: 600; cursor: pointer; transition: all .18s ease; }
+    .category-chip:hover, .category-chip.active { border-color: var(--green); background: var(--green); color: white; }
+    .listing-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 17px; }
+    .listing-card { overflow: hidden; min-width: 0; border: 1px solid var(--line); border-radius: 6px; background: var(--white); transition: transform .2s ease, box-shadow .2s ease; }
+    .listing-card:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(35,47,30,.09); }
+    .listing-image { position: relative; height: 183px; overflow: hidden; background: #d7ddc9; }
+    .listing-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+    .listing-card:hover .listing-image img { transform: scale(1.035); }
+    .availability { position: absolute; top: 12px; left: 12px; display: inline-flex; align-items: center; gap: 6px; border-radius: 3px; padding: 6px 9px; background: rgba(255,254,250,.95); color: var(--green); font-size: 9px; font-weight: 700; }
+    .availability i { width: 6px; height: 6px; border-radius: 50%; background: #55a26b; }
+    .favorite { position: absolute; top: 10px; right: 11px; width: 33px; height: 33px; display: grid; place-items: center; border: 0; border-radius: 50%; background: rgba(255,254,250,.95); color: #5c625a; font-size: 18px; cursor: pointer; }
+    .favorite.active { color: var(--orange); }
+    .listing-body { padding: 15px 16px 14px; }
+    .listing-type { color: var(--orange); font-size: 9px; font-weight: 700; letter-spacing: .9px; text-transform: uppercase; }
+    .listing-provider { display: block; margin-top: 5px; color: var(--muted); font-size: 9px; }
+    .listing-title { margin: 6px 0 8px; font-size: 16px; font-weight: 700; }
+    .listing-location { display: flex; align-items: center; gap: 5px; color: var(--muted); font-size: 11px; }
+    .listing-bottom { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+    .price { color: var(--green-dark); font-size: 19px; font-weight: 800; letter-spacing: -.4px; }
+    .price small { color: var(--muted); font-size: 10px; font-weight: 500; letter-spacing: 0; }
+    .listing-bottom .button { min-height: 35px; padding: 0 12px; font-size: 10px; }
+    .whatsapp-icon { width: 16px; height: 16px; flex: 0 0 16px; }
+    .empty-state { grid-column: 1 / -1; padding: 42px 18px; border: 1px dashed #cdd2c6; border-radius: 5px; color: var(--muted); text-align: center; }
+
+    .voice-band { overflow: hidden; display: grid; grid-template-columns: 1.1fr .9fr; min-height: 230px; border-radius: 7px; background: #e9eee3; }
+    .voice-copy { align-self: center; padding: 31px 42px; }
+    .voice-copy h2 { margin: 8px 0 8px; font-size: 27px; font-weight: 600; letter-spacing: -.6px; }
+    .voice-copy p { max-width: 475px; margin: 0; color: #636b5e; font-size: 12px; line-height: 1.7; }
+    .voice-cta { margin-top: 17px; }
+    .voice-visual { position: relative; min-height: 230px; overflow: hidden; background: var(--green); color: white; }
+    .voice-visual::before, .voice-visual::after { position: absolute; border: 1px solid rgba(211,224,117,.28); border-radius: 50%; content: ""; }
+    .voice-visual::before { width: 360px; height: 360px; top: -110px; left: 12%; }
+    .voice-visual::after { width: 245px; height: 245px; top: -52px; left: 29%; }
+    .phone-card { position: absolute; top: 50%; left: 50%; width: min(280px, 75%); transform: translate(-50%, -50%); padding: 17px 18px; border-radius: 7px; background: var(--white); color: var(--ink); box-shadow: 0 14px 35px rgba(20,36,23,.22); }
+    .phone-head { display: flex; align-items: center; gap: 9px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+    .wa-mark { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: #e5f2e7; color: #258044; font-size: 12px; font-weight: 700; }
+    .phone-head strong { font-size: 11px; }
+    .phone-head small { display: block; margin-top: 2px; color: var(--muted); font-size: 9px; }
+    .message { width: fit-content; max-width: 94%; margin-top: 12px; border-radius: 5px; padding: 9px 11px; background: #edf2e8; color: #455141; font-size: 10px; line-height: 1.5; }
+    .voice-message { display: flex; align-items: center; gap: 8px; margin: 8px 0 0 auto; padding: 9px 11px; border-radius: 5px; background: #e3f0e2; color: #31734a; font-size: 11px; }
+    .voice-bars { display: flex; height: 15px; align-items: center; gap: 2px; }
+    .voice-bars i { width: 2px; border-radius: 2px; background: #438d58; }
+    .voice-bars i:nth-child(3n+1) { height: 7px; }.voice-bars i:nth-child(3n+2) { height: 13px; }.voice-bars i:nth-child(3n) { height: 10px; }
+
+    .iot-section { padding: 63px 0; }
+    .iot-layout { display: grid; grid-template-columns: .82fr 1.18fr; align-items: center; gap: 50px; }
+    .iot-copy h2 { max-width: 440px; font-size: 34px; line-height: 1.14; }
+    .iot-copy > p { max-width: 435px; margin: 12px 0 20px; color: var(--muted); font-size: 12px; line-height: 1.8; }
+    .iot-points { display: grid; gap: 11px; margin: 0; padding: 0; list-style: none; }
+    .iot-points li { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 600; }
+    .iot-check { width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; background: var(--green-pale); color: var(--green); font-size: 11px; }
+    .iot-dashboard { overflow: hidden; border: 1px solid #e3e5dc; border-radius: 7px; background: var(--white); box-shadow: 0 12px 34px rgba(35,47,30,.07); }
+    .dash-head { display: flex; align-items: center; justify-content: space-between; padding: 17px 19px; border-bottom: 1px solid var(--line); }
+    .dash-title { font-size: 12px; font-weight: 700; }
+    .sensor-status { display: inline-flex; align-items: center; gap: 6px; color: var(--green); font-size: 9px; font-weight: 700; }
+    .sensor-status i { width: 6px; height: 6px; border-radius: 50%; background: #59a46b; }
+    .dash-content { padding: 17px 19px 19px; }
+    .dash-machine { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .machine-thumb { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 5px; background: #e9eee3; font-size: 19px; }
+    .dash-machine strong { display: block; font-size: 11px; }
+    .dash-machine span { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; }
+    .metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .metric { padding: 12px 13px; border: 1px solid var(--line); border-radius: 4px; }
+    .metric label { display: block; color: var(--muted); font-size: 9px; }
+    .metric strong { display: block; margin-top: 5px; font-size: 18px; letter-spacing: -.4px; }
+    .metric strong small { color: var(--muted); font-size: 9px; font-weight: 500; letter-spacing: 0; }
+    .chart-head { display: flex; align-items: center; justify-content: space-between; margin-top: 17px; }
+    .chart-head strong { font-size: 10px; }
+    .chart-tabs { display: flex; gap: 3px; }
+    .chart-tab { border: 0; border-radius: 3px; padding: 5px 8px; background: transparent; color: var(--muted); font-size: 9px; cursor: pointer; }
+    .chart-tab.active { background: var(--green-pale); color: var(--green); font-weight: 700; }
+    .chart { height: 83px; display: flex; align-items: end; gap: 8px; margin-top: 11px; padding: 0 4px; border-bottom: 1px solid var(--line); background: repeating-linear-gradient(to bottom, transparent 0, transparent 26px, #eff0e9 27px); }
+    .chart-bar { flex: 1; height: var(--height); min-width: 6px; border-radius: 3px 3px 0 0; background: #85a984; transition: height .25s ease; }
+    .chart-bar:nth-child(4n+2) { background: #b6c980; }
+    .chart-labels { display: flex; justify-content: space-between; padding: 5px 3px 0; color: #92978d; font-size: 8px; }
+
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 27px; border: 1px solid var(--line); background: var(--line); }
+    .step { min-height: 150px; padding: 22px 24px; background: var(--paper); }
+    .step-number { color: var(--orange); font-family: var(--serif); font-size: 27px; }
+    .step h3 { margin: 8px 0 7px; font-size: 14px; }
+    .step p { max-width: 290px; margin: 0; color: var(--muted); font-size: 11px; line-height: 1.7; }
+
+    .bottom-cta { display: flex; align-items: center; justify-content: space-between; gap: 22px; margin: 16px 0 60px; padding: 27px 33px; border-radius: 6px; background: #e8eee5; }
+    .bottom-cta h2 { margin: 0; font-size: 21px; font-weight: 600; }
+    .bottom-cta p { margin: 6px 0 0; color: var(--muted); font-size: 11px; }
+    .footer { background: var(--green-dark); color: #d7dfd1; }
+    .footer-main { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 35px; padding: 35px 0; }
+    .footer .brand { color: white; }
+    .footer-brand p { max-width: 310px; color: #aeb9a9; font-size: 11px; line-height: 1.8; }
+    .footer h3 { margin: 4px 0 13px; color: var(--lime); font-size: 10px; letter-spacing: .7px; text-transform: uppercase; }
+    .footer-links { display: grid; gap: 9px; color: #d7dfd1; font-size: 11px; }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 15px; padding: 13px 0 17px; border-top: 1px solid rgba(255,255,255,.13); color: #9eaa98; font-size: 9px; }
+
+    .modal-backdrop { position: fixed; z-index: 20; inset: 0; display: none; align-items: center; justify-content: center; overflow-y: auto; padding: 20px; background: rgba(19,31,22,.58); }
+    .modal-backdrop.open { display: flex; }
+    .modal { position: relative; width: min(480px, 100%); max-height: calc(100vh - 40px); overflow-y: auto; border-radius: 7px; padding: 25px; background: var(--white); box-shadow: 0 24px 70px rgba(0,0,0,.24); animation: modal-in .18s ease-out; }
+    @keyframes modal-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .modal-close { position: absolute; top: 14px; right: 14px; width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--muted); font-size: 19px; cursor: pointer; }
+    .modal-kicker { color: var(--orange); font-size: 9px; font-weight: 700; letter-spacing: 1.1px; text-transform: uppercase; }
+    .modal h2 { margin: 7px 38px 6px 0; font-size: 25px; letter-spacing: -.5px; }
+    .modal-intro { margin: 0 0 19px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+    .modal-machine { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; padding: 10px; border: 1px solid var(--line); border-radius: 5px; }
+    .modal-machine img { width: 61px; height: 52px; border-radius: 3px; object-fit: cover; }
+    .modal-machine strong { display: block; font-size: 12px; }
+    .modal-machine span { display: block; margin-top: 3px; color: var(--muted); font-size: 10px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+    .form-field { min-width: 0; display: grid; gap: 5px; }
+    .form-field.full { grid-column: 1 / -1; }
+    .form-field label { color: #5c6459; font-size: 10px; font-weight: 700; }
+    .form-field input, .form-field select, .form-field textarea { width: 100%; min-height: 40px; border: 1px solid #dfe1d7; border-radius: 4px; outline: 0; padding: 9px 10px; background: #fff; color: var(--ink); font-size: 11px; }
+    .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: #709276; box-shadow: 0 0 0 2px #e4eee3; }
+    .form-field textarea { min-height: 70px; resize: vertical; }
+    .estimate { display: flex; justify-content: space-between; gap: 12px; margin: 16px 0 13px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
+    .estimate strong { color: var(--green-dark); font-size: 17px; }
+    .modal-submit { width: 100%; }
+    .modal-footnote { margin: 10px 0 0; color: #858b80; font-size: 9px; line-height: 1.55; text-align: center; }
+    .audio-note { margin: 0; color: var(--muted); font-size: 9px; line-height: 1.55; }
+    .notice { position: fixed; z-index: 30; right: 20px; bottom: 20px; max-width: min(380px, calc(100vw - 40px)); transform: translateY(15px); opacity: 0; pointer-events: none; border-radius: 5px; padding: 12px 16px; background: var(--green-dark); color: white; font-size: 11px; box-shadow: 0 8px 24px rgba(0,0,0,.18); transition: all .2s ease; }
+    .notice.visible { transform: translateY(0); opacity: 1; }
+
+    @media (max-width: 900px) {
+      .wrap { width: min(100% - 40px, 720px); }
+      .nav-links { gap: 17px; }
+      .hero-copy { padding-left: 35px; }
+      .hero h1 { font-size: 49px; }
+      .listing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .iot-layout { grid-template-columns: 1fr; gap: 28px; }
+      .iot-copy h2 { max-width: 560px; }
+    }
+    @media (max-width: 640px) {
+      .wrap { width: calc(100% - 32px); }
+      .topline-inner { min-height: 31px; justify-content: center; text-align: center; }
+      .topline-right { display: none; }
+      .nav { height: 65px; }
+      .nav-links { position: absolute; z-index: 10; top: 96px; right: 16px; left: 16px; display: none; align-items: stretch; gap: 0; border: 1px solid var(--line); border-radius: 5px; padding: 7px; background: var(--white); box-shadow: 0 10px 22px rgba(35,47,30,.1); }
+      .nav-links.open { display: grid; }
+      .nav-links a { padding: 12px; }
+      .nav-actions .button { display: none; }
+      .mobile-menu { display: grid; place-items: center; }
+      .hero { grid-template-columns: 1fr; min-height: unset; }
+      .hero-copy { padding: 32px 24px 27px; }
+      .hero h1 { max-width: 450px; margin-top: 15px; font-size: 46px; }
+      .hero-copy > p { max-width: 430px; margin: 13px 0 18px; font-size: 12px; }
+      .hero-cta { flex-wrap: wrap; gap: 12px; }
+      .hero-photo { min-height: 200px; }
+      .hero-photo::before { background: linear-gradient(0deg, rgba(20,36,23,.38), transparent 60%); }
+      .hero-float { right: 13px; bottom: 13px; padding: 8px 10px; }
+      .float-icon { width: 30px; height: 30px; }
+      .search-panel { grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 13px; padding: 9px; }
+      .search-field { padding: 6px 7px; border-right: 0; }
+      .search-field:first-child { grid-column: 1 / -1; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+      .search-panel .button { grid-column: 1 / -1; min-height: 42px; margin-top: 3px; }
+      .trust-row { display: grid; grid-template-columns: 1fr 1fr; gap: 13px 8px; padding: 20px 0; }
+      .trust-item { gap: 7px; font-size: 9px; }
+      .trust-symbol { width: 25px; height: 25px; flex: 0 0 25px; }
+      .section { padding: 42px 0 44px; }
+      .section-head { align-items: start; flex-direction: column; gap: 10px; margin-bottom: 17px; }
+      .section h2 { font-size: 27px; }
+      .section-head p { font-size: 11px; }
+      .listing-grid { grid-template-columns: 1fr; gap: 12px; }
+      .listing-card { display: grid; grid-template-columns: 37% 1fr; }
+      .listing-image { height: 100%; min-height: 165px; }
+      .listing-body { padding: 13px 12px 11px; }
+      .listing-title { font-size: 14px; }
+      .listing-bottom { align-items: stretch; flex-direction: column; gap: 8px; margin-top: 13px; padding-top: 10px; }
+      .price { font-size: 16px; }
+      .listing-bottom .button { width: 100%; min-height: 34px; padding: 0 8px; font-size: 9px; }
+      .voice-band { grid-template-columns: 1fr; }
+      .voice-copy { padding: 26px 23px; }
+      .voice-copy h2 { font-size: 24px; }
+      .voice-visual { min-height: 205px; }
+      .iot-section { padding: 43px 0; }
+      .iot-copy h2 { font-size: 29px; }
+      .iot-dashboard { margin-inline: -2px; }
+      .dash-head, .dash-content { padding-inline: 13px; }
+      .metric-row { gap: 6px; }
+      .metric { padding: 9px 7px; }
+      .metric label { font-size: 8px; }
+      .metric strong { font-size: 15px; }
+      .chart { gap: 5px; }
+      .steps { grid-template-columns: 1fr; margin-top: 18px; }
+      .step { min-height: 0; padding: 17px 19px; }
+      .bottom-cta { align-items: start; flex-direction: column; margin: 0 0 40px; padding: 23px 20px; }
+      .bottom-cta h2 { font-size: 19px; }
+      .footer-main { grid-template-columns: 1fr 1fr; gap: 24px 18px; padding: 28px 0; }
+      .footer-brand { grid-column: 1 / -1; }
+      .footer-bottom { flex-direction: column; gap: 5px; }
+      .modal { padding: 22px 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+    :root { --paper:#f3f3f1; --white:#fff; --ink:#20211f; --muted:#70736f; --green:#24583d; --green-dark:#193d2c; --green-pale:#e8eee5; --lime:#d3e075; --orange:#d66b43; --line:#e6e5e2; }
+    .topline { display:none; }
+    .nav { height:66px; }
+    .brand-mark { border-radius:50%; background:var(--green); color:#fff; }
+    .nav-links { color:#4d504d; }
+    .hero { min-height:360px; border-radius:8px 8px 0 0; background:var(--green-dark); }
+    .hero-copy { padding:38px 24px 40px 44px; }
+    .eyebrow { color:#ffe3c9; }
+    .eyebrow-dot { background:var(--lime); }
+    .hero h1 { font-weight:700; }
+    .hero h1 em { color:var(--lime); }
+    .hero-copy > p { color:#fff1e9; }
+    .hero-photo { min-height:360px; background:#64744d; }
+    .hero-photo::before { background:linear-gradient(90deg,rgba(25,61,44,.2),transparent 35%),linear-gradient(0deg,rgba(20,36,23,.22),transparent 55%); }
+    .search-panel { grid-template-columns:1.3fr 1fr 1fr auto; gap:9px; margin-top:0; padding:16px 18px 18px; border:0; border-radius:0 0 8px 8px; background:var(--green); box-shadow:0 12px 28px rgba(35,47,30,.12); }
+    .search-intent { grid-column:1 / -1; display:flex; justify-content:center; gap:9px; }
+    .intent-option { min-height:42px; border:1px solid rgba(255,255,255,.55); border-radius:7px; padding:0 20px; background:rgba(255,255,255,.12); color:#fff; font-size:13px; font-weight:700; cursor:pointer; }
+    .intent-option.active { border-color:#fff; background:#fff; color:var(--ink); }
+    .search-field { min-height:55px; border:0; border-radius:6px; background:#fff; }
+    .search-panel .button { min-height:55px; margin:0; border-radius:7px; background:var(--lime); color:#292817; }
+    .categories { grid-column:1 / -1; flex-wrap:wrap; gap:7px; overflow:visible; padding:2px 0 0; }
+    .category-chip { border-color:rgba(255,255,255,.28); border-radius:999px; background:rgba(255,255,255,.14); color:#fff; }
+    .category-chip:hover, .category-chip.active { border-color:#fff; background:#fff; color:var(--ink); }
+    .trust-row { margin-top:15px; border:0; border-radius:7px; padding:18px 20px; background:#fff; }
+    .trust-symbol { background:var(--green-pale); color:var(--green); }
+    .backend-requests { display:grid; gap:0; margin:9px 0 0; padding:0; list-style:none; }
+    .backend-requests li { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0; border-top:1px solid var(--line); }
+    .backend-requests strong, .backend-requests small { display:block; }
+    .backend-requests strong { font-size:11px; }
+    .backend-requests small { margin-top:3px; color:var(--muted); font-size:9px; }
+    .backend-requests li > span:last-child { flex:0 0 auto; color:var(--green); font-size:9px; font-weight:700; }
+    .listing-card { border-radius:7px; box-shadow:0 4px 16px rgba(32,33,31,.05); }
+    .listing-card:hover { box-shadow:0 12px 25px rgba(32,33,31,.1); }
+    .availability { border-radius:999px; }
+    @media (max-width:900px) { .hero-copy { padding-left:30px; } }
+    @media (max-width:640px) {
+      .hero { display:flex; flex-direction:column; min-height:unset; }
+      .hero-photo { order:0; min-height:155px; height:155px; }
+      .hero-copy { order:1; padding:22px 20px 20px; }
+      .hero h1 { max-width:420px; margin:10px 0; font-size:36px; line-height:1.06; }
+      .hero-copy > p { margin:9px 0 13px; }
+      .search-panel { grid-template-columns:1fr 1fr; gap:8px; margin-top:0; padding:12px; }
+      .search-intent { gap:7px; }
+      .intent-option { flex:1; min-height:40px; padding-inline:8px; font-size:11px; }
+      .search-field { min-height:49px; }
+      .search-field:first-child { grid-column:1 / -1; border:0; padding:6px 10px; }
+      .search-panel .button { grid-column:1 / -1; min-height:45px; }
+      .categories { gap:6px; padding-top:3px; }
+      .category-chip { padding:8px 10px; font-size:10px; }
+      .trust-row { margin-top:12px; padding:15px 12px; }
+      .section { padding-top:38px; }
+    }
+  </style>
+<style>.awaiting-auth body{visibility:hidden}</style><script src="./bridge.js"></script></head>
+<body>
+  <div class="topline">
+    <div class="wrap topline-inner">
+      <span><strong>Un matériel mieux partagé.</strong> Des saisons qui avancent.</span>
+      <div class="topline-right"><a href="#fonctionnement">Comment ça marche</a><span>Français · العربية</span></div>
+    </div>
+  </div>
+  <header class="wrap nav">
+    <a class="brand" href="#accueil" aria-label="Machinati, accueil"><span class="brand-mark">M.</span><span>MACHINATI<small>La location agricole</small></span></a>
+    <nav class="nav-links" id="navLinks" aria-label="Navigation principale">
+      <a href="#materiel">Catalogue</a>
+      <a id="cooperativeLink" href="/cooperative.html">Coopérative</a>
+      <a id="operationsLink" href="/equipe-machinati.html">Opérations</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+    </div>
+  </header>
+
+  <main id="accueil">
+    <section class="wrap hero" aria-labelledby="heroTitle">
+      <div class="hero-copy">
+        <span class="eyebrow"><i class="eyebrow-dot"></i> La terre n'attend pas</span>
+        <h1 id="heroTitle">Le bon matériel.<br>Au bon <em>moment.</em></h1>
+        <p>Trouvez du matériel agricole proposé par les coopératives près de chez vous.</p>
+        <div class="hero-cta">
+          <a class="button button-cream" href="#materiel">Explorer les machines <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=85" alt="Champs agricoles au Maroc" fetchpriority="high">
+        <div class="hero-float"><span class="float-icon">⌖</span><span><strong>Autour de vous</strong><span>Des machines dans votre région</span></span></div>
+      </div>
+    </section>
+
+    <form class="wrap search-panel" id="searchForm" role="search">
+      <div class="search-intent" aria-label="Type de recherche">
+        <button class="intent-option active" type="button">Parcourir</button>
+        <button class="intent-option" type="button" data-modal="voice">Demander</button>
+      </div>
+      <div class="search-field"><span class="field-symbol" aria-hidden="true">⌕</span><div style="flex:1;min-width:0"><label for="searchQuery">Quel matériel vous faut-il ?</label><input id="searchQuery" type="search" placeholder="Ex. tracteur, moissonneuse…"></div></div>
+      <div class="search-field"><span class="field-symbol" aria-hidden="true">⌖</span><div style="flex:1;min-width:0"><label for="searchCity">Votre localité</label><select id="searchCity"><option value="">Toutes les localités</option></select></div></div>
+      <div class="search-field"><span class="field-symbol" aria-hidden="true">▦</span><div style="flex:1;min-width:0"><label for="searchType">Type de machine</label><select id="searchType"><option value="">Toutes les machines</option><option value="Tracteur">Tracteur</option><option value="Moissonneuse">Moissonneuse</option><option value="Irrigation">Irrigation</option><option value="Préparation du sol">Préparation du sol</option><option value="Transport">Transport</option></select></div></div>
+      <button class="button button-primary" type="submit">Rechercher <span aria-hidden="true">→</span></button>
+      <div class="categories" id="categoryFilters" aria-label="Filtrer par type de machine">
+        <button class="category-chip active" type="button" data-category="">Tout le matériel</button>
+        <button class="category-chip" type="button" data-category="Tracteur">Tracteurs</button>
+        <button class="category-chip" type="button" data-category="Moissonneuse">Moissonneuses</button>
+        <button class="category-chip" type="button" data-category="Irrigation">Irrigation</button>
+        <button class="category-chip" type="button" data-category="Préparation du sol">Préparation du sol</button>
+        <button class="category-chip" type="button" data-category="Transport">Transport</button>
+      </div>
+    </form>
+
+    <div class="wrap trust-row" aria-label="Avantages">
+      <div class="trust-item"><span class="trust-symbol">✓</span> Coopératives locales</div>
+      <div class="trust-item"><span class="trust-symbol">◷</span> Tarifs transparents</div>
+      <div class="trust-item"><span class="trust-symbol">⌖</span> Près de chez vous</div>
+      <div class="trust-item"><span class="trust-symbol">◉</span> Demande WhatsApp</div>
+    </div>
+
+    <section class="wrap section" id="materiel" aria-labelledby="listingsTitle">
+      <div class="section-head">
+        <div><span class="section-kicker">Catalogue</span><h2 id="listingsTitle">Machines à louer</h2></div>
+      </div>
+      <div class="listing-grid" id="listingGrid" aria-live="polite"></div>
+    </section>
+
+    <section class="wrap voice-band" aria-labelledby="voiceTitle">
+      <div class="voice-copy">
+        <span class="section-kicker">WhatsApp</span>
+        <h2 id="voiceTitle">Décrivez votre besoin.</h2>
+        <p>Écrivez ou envoyez un vocal en français ou en darija.</p>
+        <button class="button button-primary voice-cta" type="button" data-whatsapp="voice">Faire une demande <span aria-hidden="true">→</span></button>
+      </div>
+      <div class="voice-visual" aria-label="Aperçu d'un échange vocal sur WhatsApp">
+        <div class="phone-card">
+          <div class="phone-head"><span class="wa-mark">M</span><span><strong>Machinati · Plateforme</strong><small>en ligne</small></span></div>
+          <div class="message">Salam ! Dites-nous la machine qu'il vous faut. Nous vérifions sa disponibilité auprès d'une coopérative partenaire.</div>
+          <div class="voice-message"><span>▶</span><span class="voice-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span>0:08</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap section" id="fonctionnement" aria-labelledby="stepsTitle" style="padding-top:12px">
+      <div class="section-head"><div><span class="section-kicker">Simple du premier vocal au dernier sillon</span><h2 id="stepsTitle">Comment ça <em>marche</em></h2></div></div>
+      <div class="steps">
+        <article class="step"><span class="step-number">01</span><h3>Choisissez une machine</h3></article>
+        <article class="step"><span class="step-number">02</span><h3>Envoyez votre demande</h3></article>
+        <article class="step"><span class="step-number">03</span><h3>La coopérative confirme</h3></article>
+      </div>
+    </section>
+
+    <section class="wrap bottom-cta" aria-label="Proposer une machine à la location">
+      <div><h2>Votre coopérative loue du matériel agricole ?</h2><p>Présentez vos machines sur Machinati et recevez des demandes de location.</p></div>
+      <button class="button button-primary" type="button" data-modal="owner">Inscrire une coopérative <span aria-hidden="true">→</span></button>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-main">
+      <div class="footer-brand"><a class="brand" href="#accueil"><span class="brand-mark">M.</span><span>MACHINATI<small>La location agricole</small></span></a><p>Une plateforme de location pensée pour les agriculteurs marocains. Du matériel mieux partagé, des saisons qui avancent.</p></div>
+      <div><h3>La plateforme</h3><div class="footer-links"><a href="#materiel">Trouver du matériel</a><a href="#fonctionnement">Comment ça marche</a></div></div>
+      <div><h3>Pour les coopératives</h3><div class="footer-links"><a href="#materiel" data-modal="owner">Inscrire une coopérative</a><a href="#fonctionnement">La location expliquée</a><a href="#accueil">Nous contacter</a></div></div>
+      <div><h3>Informations légales</h3><div class="footer-links"><a href="/privacy">Confidentialité</a><a href="/terms">Conditions d’utilisation</a><a href="/data-deletion">Suppression des données</a></div></div>
+    </div>
+    <div class="wrap footer-bottom"><span>© 2026 Machinati · Catalogue agricole</span><span>Disponibilités issues des données communiquées par les coopératives.</span></div>
+  </footer>
+
+  <div class="modal-backdrop" id="modalBackdrop" role="presentation">
+    <section class="modal" id="modalContent" role="dialog" aria-modal="true" aria-labelledby="modalTitle"></section>
+  </div>
+  <div class="notice" id="notice" role="status" aria-live="polite"></div>
+
+  <script>
+window.machinatiReady.then(ready => { if (!ready) return;
+    let machines = [];
+    const favorites = new Set();
+    const grid = document.getElementById("listingGrid");
+    const queryInput = document.getElementById("searchQuery");
+    const citySelect = document.getElementById("searchCity");
+    const typeSelect = document.getElementById("searchType");
+    const backdrop = document.getElementById("modalBackdrop");
+    const modal = document.getElementById("modalContent");
+    const whatsappIcon = '<svg class="whatsapp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.2 11.7a8.2 8.2 0 0 1-12 7.2L3.4 20l1.2-4.6a8.2 8.2 0 1 1 15.6-3.7Z"></path><path d="M8.3 7.7c.2-.5.4-.5.7-.5h.5c.2 0 .4.1.5.4l.7 1.7c.1.3.1.5-.1.7l-.5.6c-.2.2-.2.4-.1.6.4.7.9 1.4 1.6 1.8.2.1.4.1.6-.1l.7-.8c.2-.2.4-.3.7-.2l1.7.8c.3.1.4.3.4.5 0 .3-.2 1.1-.7 1.5-.4.4-1.1.7-1.9.5-.8-.2-2-.7-3.2-1.8-1-.9-1.7-2.1-1.9-2.8-.2-.7 0-1.4.4-1.9.2-.3.5-.6.7-1Z"></path></svg>';
+    let activeCategory = "";
+    let noticeTimer;
+    const apiBaseUrl = "";
+    document.getElementById("cooperativeLink").href = "/cooperative";
+    document.getElementById("cooperativeLink").target = "_top";
+    document.getElementById("operationsLink").href = "/operations";
+    document.getElementById("operationsLink").target = "_top";
+
+    const categoryLabels = {
+      tractor: "Tracteur",
+      combine_harvester: "Moissonneuse",
+      harvester: "Moissonneuse", baler: "Presse à foin", sprayer: "Pulvérisateur", irrigation_pump: "Irrigation",
+      irrigation: "Irrigation",
+      soil_preparation: "Préparation du sol",
+      transport: "Transport"
+    };
+    const machineImages = {
+      Tracteur: "https://images.unsplash.com/photo-1530267981375-f0de937f5f13?auto=format&fit=crop&w=900&q=80",
+      Moissonneuse: "https://images.unsplash.com/photo-1530267981375-f0de937f5f13?auto=format&fit=crop&w=900&q=80",
+      Irrigation: "https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=900&q=80",
+      "Préparation du sol": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80",
+      Transport: "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=80"
+    };
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (character) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;"
+      })[character]);
+    }
+
+    function loadFilterOptions() {
+      const locations = [...new Set(machines.map((machine) => machine.city).filter(Boolean))].sort();
+      citySelect.replaceChildren(new Option("Toutes les localités", ""), ...locations.map((location) => new Option(location, location)));
+      const categories = [...new Set(machines.map((machine) => machine.category).filter(Boolean))].sort();
+      typeSelect.replaceChildren(new Option("Toutes les machines", ""), ...categories.map((category) => new Option(category, category)));
+    }
+
+    async function loadMachines() {
+      try {
+        const response = await fetch(`${apiBaseUrl}/api/machines`);
+        if (!response.ok) throw new Error(`Erreur API (${response.status})`);
+        const rows = await response.json();
+        const availableRows = rows.filter((machine) => Boolean(machine.available) && !machine.reserved_for_own_use);
+        machines = availableRows.map((machine) => {
+          const category = categoryLabels[machine.machine_type] || machine.machine_type;
+          return {
+            id: machine.id,
+            title: machine.name,
+            category,
+            city: machine.location || "Localité non précisée",
+            region: machine.location || "",
+            price: machine.hourly_rate ?? 0,
+            hasPrice: machine.hourly_rate != null,
+            unit: "heure",
+            image: machineImages[category] || machineImages.Tracteur,
+            alt: `${category} disponible à la location`
+          };
+        });
+        loadFilterOptions();
+        document.getElementById("categoryFilters").innerHTML = '<button class="category-chip active" type="button" data-category="">Tout le matériel</button>' + [...new Set(machines.map(m => m.category))].map(category => `<button class="category-chip" type="button" data-category="${escapeHtml(category)}">${escapeHtml(category)}</button>`).join('');
+      } catch (error) {
+        showNotice(`Catalogue indisponible : ${error.message}`);
+      }
+      renderListings();
+    }
+
+    function rentalWhatsAppUrl(machine) {
+      const message = `Salam, je souhaite louer le/la ${machine.title} auprès d'une coopérative partenaire via Machinati. Merci de vérifier sa disponibilité à ${machine.city} et de m'accompagner pour la location.`;
+      return `https://wa.me/${window.machinatiWhatsApp}?text=${encodeURIComponent(message)}`;
+    }
+
+    function openWhatsApp(message) {
+      if (!window.machinatiWhatsApp) { showNotice("Le numéro WhatsApp du service n’est pas encore configuré."); return; }
+      window.open(`https://wa.me/${window.machinatiWhatsApp}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+    }
+
+    function renderListings() {
+      const query = queryInput.value.trim().toLocaleLowerCase("fr");
+      const city = citySelect.value;
+      const type = typeSelect.value;
+      const results = machines.filter((machine) => {
+        const matchesText = !query || `${machine.title} ${machine.category} ${machine.city} ${machine.region}`.toLocaleLowerCase("fr").includes(query);
+        return matchesText && (!city || machine.region === city) && (!type || machine.category === type) && (!activeCategory || machine.category === activeCategory);
+      });
+      grid.innerHTML = results.length ? results.map((machine) => `
+        <article class="listing-card">
+          <div class="listing-image"><img src="${machine.image}" alt="${escapeHtml(machine.alt)}" loading="lazy"><span class="availability"><i></i> Disponible</span><button class="favorite ${favorites.has(machine.id) ? "active" : ""}" type="button" data-favorite="${machine.id}" aria-label="${favorites.has(machine.id) ? "Retirer des" : "Ajouter aux"} favoris" aria-pressed="${favorites.has(machine.id)}">${favorites.has(machine.id) ? "♥" : "♡"}</button></div>
+          <div class="listing-body"><span class="listing-type">${escapeHtml(machine.category)}</span><span class="listing-provider">Proposée par une coopérative partenaire</span><h3 class="listing-title">${escapeHtml(machine.title)}</h3><div class="listing-location"><span aria-hidden="true">⌖</span> ${escapeHtml(machine.city)}${machine.region && machine.region !== machine.city ? ` · ${escapeHtml(machine.region)}` : ""}</div><div class="listing-bottom"><span class="price">${machine.hasPrice ? `${machine.price.toLocaleString("fr-FR")} <small>MAD / h</small>` : "Tarif à confirmer"}</span><a class="button button-primary" href="${rentalWhatsAppUrl(machine)}" data-modal="booking" data-machine="${machine.id}" target="_blank" rel="noopener noreferrer">Continuer vers WhatsApp ${whatsappIcon}</a></div></div>
+        </article>`).join("") : `<div class="empty-state">Aucune machine ne correspond à cette recherche. Essayez une autre région ou catégorie.</div>`;
+    }
+
+    window.machinatiNotice = showNotice;
+    function showNotice(message) {
+      const notice = document.getElementById("notice");
+      notice.textContent = message;
+      notice.classList.add("visible");
+      clearTimeout(noticeTimer);
+      noticeTimer = setTimeout(() => notice.classList.remove("visible"), 3500);
+    }
+
+    let previousFocus = null;
+    function openModal(kind, machineId) {
+      previousFocus = document.activeElement;
+      const machine = machines.find((item) => item.id === Number(machineId));
+      if (kind === "owner") {
+        modal.innerHTML = `<button class="modal-close" type="button" aria-label="Fermer">×</button><span class="modal-kicker">Pour les coopératives</span><h2 id="modalTitle">Inscrire votre coopérative</h2><p class="modal-intro">Présentez vos machines et indiquez comment vous joindre. Machinati vous accompagnera pour publier vos offres de location.</p><form id="ownerForm"><div class="form-grid"><div class="form-field"><label for="ownerName">Nom de la coopérative</label><input id="ownerName" name="name" autocomplete="organization" required placeholder="Nom de votre coopérative"></div><div class="form-field"><label for="ownerPhone">Téléphone WhatsApp</label><input id="ownerPhone" name="phone" inputmode="tel" required placeholder="+212 6 …"></div><div class="form-field full"><label for="ownerMachine">Machines à louer</label><input id="ownerMachine" name="machine" required placeholder="Ex. tracteur 75 ch, motopompe"></div><div class="form-field full"><label for="ownerRegion">Votre région</label><select id="ownerRegion" name="region" required><option value="">Choisir une région</option><option>Fès-Meknès</option><option>Marrakech-Safi</option><option>Souss-Massa</option><option>Béni Mellal-Khénifra</option><option>Rabat-Salé-Kénitra</option></select></div></div><div style="margin-top:16px"><button class="button button-primary modal-submit" type="submit">Présenter ma coopérative <span aria-hidden="true">→</span></button></div><p class="modal-footnote">Votre message sera préparé dans WhatsApp. Envoyez-le pour contacter l’équipe.</p></form>`;
+      } else {
+        const title = kind === "voice" ? "Décrivez votre besoin" : "Demander cette machine";
+        modal.innerHTML = `<button class="modal-close" type="button" aria-label="Fermer">×</button><span class="modal-kicker">${kind === "voice" ? "Réservation vocale" : "Location agricole"}</span><h2 id="modalTitle">${title}</h2><p class="modal-intro">${kind === "voice" ? "Dites-nous ce qu'il vous faut. Vous pourrez envoyer votre demande sur WhatsApp." : "Choisissez vos dates pour estimer le coût de votre location."}</p>${machine ? `<div class="modal-machine"><img src="${machine.image}" alt=""><span><strong>${escapeHtml(machine.title)}</strong><span>${escapeHtml(machine.city)} · ${machine.price.toLocaleString("fr-FR")} MAD / h</span></span></div>` : ""}<form id="bookingForm" data-machine="${machine ? machine.id : ""}" data-price="${machine ? machine.price : "0"}"><div class="form-grid">${machine ? `<div class="form-field"><label for="startDate">Date souhaitée</label><input id="startDate" name="start" type="date" required></div><div class="form-field"><label for="rentalDays">Durée (heures)</label><input id="rentalDays" name="days" type="number" min="1" step="1" value="1" required></div>` : `<div class="form-field"><label for="needCategory">Matériel recherché</label><select id="needCategory" name="category" required><option value="">Choisir une catégorie</option><option>Tracteur</option><option>Moissonneuse</option><option>Irrigation</option><option>Préparation du sol</option><option>Transport</option></select></div><div class="form-field"><label for="needRegion">Votre région</label><select id="needRegion" name="region" required><option value="">Choisir une région</option><option>Fès-Meknès</option><option>Marrakech-Safi</option><option>Souss-Massa</option><option>Béni Mellal-Khénifra</option><option>Rabat-Salé-Kénitra</option></select></div>`}<div class="form-field"><label for="contactName">Votre prénom</label><input id="contactName" name="name" autocomplete="given-name" placeholder="Prénom" required></div><div class="form-field"><label for="contactPhone">Téléphone WhatsApp</label><input id="contactPhone" name="phone" inputmode="tel" autocomplete="tel" placeholder="+212 6 …" required></div><div class="form-field full"><label for="requestNote">Un détail à ajouter ?</label><textarea id="requestNote" name="note" placeholder="Lieu, période souhaitée, superficie…"></textarea><div class="voice-control"><button class="voice-btn" type="button" id="recordVoice">● Parler</button><span class="voice-hint" id="voiceHint">Remplir le message avec votre voix</span></div></div></div>${machine ? `<div class="estimate"><span>Estimation · <span id="estimateDays">1 heure</span></span><strong><span id="estimateTotal">${machine.price.toLocaleString("fr-FR")}</span> MAD</strong></div>` : ""}<button class="button button-primary modal-submit" type="submit">Continuer sur WhatsApp <span aria-hidden="true">→</span></button><p class="modal-footnote">${machine ? "Estimation indicative, hors éventuels frais de transport. Les modalités sont à confirmer avec le propriétaire." : "Votre message sera préparé pour WhatsApp. Aucun paiement ne sera effectué ici."}</p></form>`;
+        const dateField = document.getElementById("startDate");
+        if (dateField) dateField.min = new Date().toISOString().slice(0, 10);
+        const voiceControl = modal.querySelector(".voice-control");
+        if (voiceControl) {
+          const audioNote = document.createElement("p");
+          audioNote.className = "audio-note";
+          audioNote.textContent = "Le vocal s'enregistre dans WhatsApp après ouverture, pas sur ce site.";
+          voiceControl.replaceWith(audioNote);
+        }
+        const modalIntro = modal.querySelector(".modal-intro");
+        if (kind === "voice") modalIntro.textContent = "Votre demande sera transmise à Machinati, qui la coordonnera avec une coopérative partenaire. Envoyez votre vocal directement depuis WhatsApp.";
+        const whatsappSubmit = modal.querySelector("#bookingForm .modal-submit");
+        if (whatsappSubmit) whatsappSubmit.innerHTML = `Continuer vers WhatsApp ${whatsappIcon}`;
+        const bookingNote = modal.querySelector("#bookingForm .modal-footnote");
+        if (machine && bookingNote) bookingNote.textContent = "Estimation indicative, hors transport. Machinati vérifie la disponibilité auprès de la coopérative partenaire et coordonne les modalités avec vous.";
+      }
+      const machineDetails = modal.querySelector(".modal-machine strong + span");
+      if (machine && machineDetails) {
+        machineDetails.textContent = `${machine.city} · ${machine.hasPrice ? `${machine.price.toLocaleString("fr-FR")} MAD / h` : "Tarif à confirmer"}`;
+      }
+      const machineIntro = modal.querySelector(".modal-intro");
+      if (machine && machineIntro) machineIntro.textContent = "Indiquez les dates souhaitées. La disponibilité et le tarif final seront confirmés par la coopérative.";
+      const estimate = modal.querySelector(".estimate");
+      if (estimate && !machine?.hasPrice) estimate.remove();
+
+      backdrop.classList.add("open");
+      document.body.style.overflow = "hidden";
+      modal.querySelector(".modal-close").focus();
+    }
+
+    function closeModal() {
+      backdrop.classList.remove("open");
+      document.body.style.overflow = "";
+      previousFocus?.focus();
+    }
+
+    document.getElementById("searchForm").addEventListener("submit", (event) => { event.preventDefault(); renderListings(); document.getElementById("materiel").scrollIntoView({ behavior: "smooth" }); });
+    queryInput.addEventListener("input", renderListings);
+    citySelect.addEventListener("change", renderListings);
+    typeSelect.addEventListener("change", () => {
+      activeCategory = "";
+      document.querySelectorAll(".category-chip").forEach((chip) => chip.classList.toggle("active", chip.dataset.category === ""));
+      renderListings();
+    });
+    document.getElementById("categoryFilters").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-category]");
+      if (!button) return;
+      activeCategory = button.dataset.category;
+      document.querySelectorAll(".category-chip").forEach((chip) => chip.classList.toggle("active", chip === button));
+      typeSelect.value = activeCategory;
+      renderListings();
+    });
+    grid.addEventListener("click", (event) => {
+      const favoriteButton = event.target.closest("[data-favorite]");
+      if (favoriteButton) {
+        const id = Number(favoriteButton.dataset.favorite);
+        favorites.has(id) ? favorites.delete(id) : favorites.add(id);
+        renderListings();
+        return;
+      }
+    });
+    document.addEventListener("click", (event) => {
+      const whatsappButton = event.target.closest("[data-whatsapp]");
+      if (whatsappButton) {
+        const message = "Salam, je souhaite louer une machine agricole auprès d'une coopérative partenaire via Machinati. Merci de m'aider à trouver une machine disponible.";
+        openWhatsApp(message);
+      }
+      const openButton = event.target.closest("[data-modal]");
+      if (openButton) { event.preventDefault(); openModal(openButton.dataset.modal, openButton.dataset.machine); }
+      if (event.target.closest(".modal-close") || event.target === backdrop) closeModal();
+    });
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape" && backdrop.classList.contains("open")) closeModal(); });
+    modal.addEventListener("submit", (event) => {
+      if (event.target.id !== "bookingForm" && event.target.id !== "ownerForm") return;
+      event.preventDefault();
+      const form = event.target;
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      if (!window.machinatiWhatsApp) { showNotice("Le numéro WhatsApp du service n’est pas encore configuré."); return; }
+      if (form.id === "ownerForm") {
+        const message = `Salam, notre coopérative souhaite proposer des machines à louer sur la plateforme Machinati. Machines : ${data.get("machine")}. Région : ${data.get("region")}. Coopérative : ${data.get("name")}. Téléphone : ${data.get("phone")}.`;
+        if (!window.machinatiWhatsApp) { showNotice("Le numéro WhatsApp du service n’est pas encore configuré."); return; }
+      window.open(`https://wa.me/${window.machinatiWhatsApp}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+        showNotice("Votre demande est prête dans WhatsApp.");
+      } else {
+        const selectedMachine = machines.find((item) => item.id === Number(form.dataset.machine));
+        const details = selectedMachine ? `Machine : ${selectedMachine.title}. Dates souhaitées : ${data.get("start")}, ${data.get("days")} heure(s).` : `Machine recherchée : ${data.get("category")}, région : ${data.get("region")}.`;
+        const message = `Salam, je souhaite louer une machine agricole auprès d'une coopérative partenaire via Machinati. ${details} Nom : ${data.get("name")}. Téléphone : ${data.get("phone")}. ${data.get("note") ? `Détails : ${data.get("note")}` : ""} Merci de vérifier la disponibilité avec la coopérative et de coordonner la remise de la machine.`;
+        if (!window.machinatiWhatsApp) { showNotice("Le numéro WhatsApp du service n’est pas encore configuré."); return; }
+      window.open(`https://wa.me/${window.machinatiWhatsApp}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+        showNotice("Votre demande est prête dans WhatsApp pour Machinati, qui la coordonnera avec une coopérative partenaire.");
+      }
+      closeModal();
+    });
+
+    document.querySelectorAll(".chart-tab").forEach((tab) => tab.addEventListener("click", () => {
+      document.querySelectorAll(".chart-tab").forEach((item) => item.classList.toggle("active", item === tab));
+      const month = tab.dataset.period === "month";
+      const bars = [...document.querySelectorAll(".chart-bar")];
+      const week = [38, 63, 48, 84, 57, 72, 44, 64, 91, 53, 74, 42];
+      const monthData = [42, 54, 35, 67, 83, 49, 61, 93, 73, 52, 80, 60];
+      bars.forEach((bar, index) => bar.style.setProperty("--height", `${(month ? monthData : week)[index]}%`));
+      document.querySelector(".chart-labels").innerHTML = month ? "<span>1</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span><span>30</span>" : "<span>Lun.</span><span>Mar.</span><span>Mer.</span><span>Jeu.</span><span>Ven.</span><span>Sam.</span><span>Dim.</span>";
+      document.getElementById("metricHours").innerHTML = month ? "28,6 <small>h</small>" : "6,4 <small>h</small>";
+      document.getElementById("metricDistance").innerHTML = month ? "84 <small>km</small>" : "18 <small>km</small>";
+      document.getElementById("metricService").innerHTML = month ? "4 <small>h</small>" : "12 <small>h</small>";
+    }));
+
+    modal.addEventListener("input", event => {
+      if (event.target.id !== "rentalDays") return;
+      const form = document.getElementById("bookingForm");
+      const hours = Number(event.target.value);
+      const total = document.getElementById("estimateTotal");
+      if (total) total.textContent = (Number(form.dataset.price) * hours).toLocaleString("fr-FR");
+      const unit = document.getElementById("estimateDays");
+      if (unit) unit.textContent = `${hours} heure(s)`;
+    });
+    modal.addEventListener("keydown", event => {
+      if (event.key !== "Tab") return;
+      const fields = modal.querySelectorAll('button:not(:disabled), input, select, textarea, a[href]');
+      const first = fields[0], last = fields[fields.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    });
+    const mobileMenu = document.getElementById("mobileMenu");
+    mobileMenu.addEventListener("click", () => {
+      const expanded = mobileMenu.getAttribute("aria-expanded") !== "true";
+      mobileMenu.setAttribute("aria-expanded", String(expanded));
+      document.getElementById("navLinks").classList.toggle("open", expanded);
+    });
+    loadMachines();
+
+});
+  </script>
+</body>
+</html>

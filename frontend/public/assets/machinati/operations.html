@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="fr" data-operator="true" data-login-path="/operations" class="awaiting-auth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5ef">
+  <meta name="description" content="Coordination des locations, des coopératives et des alertes Machinati.">
+  <title>Machinati — Équipe opérations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f6f5ef;
+      --white: #fffefa;
+      --ink: #20291f;
+      --muted: #73796e;
+      --green: #24583d;
+      --green-dark: #193d2c;
+      --green-pale: #e8eee5;
+      --lime: #d3e075;
+      --orange: #d66b43;
+      --line: #e5e5db;
+      --serif: "Instrument Serif", Georgia, serif;
+      --sans: "DM Sans", "Trebuchet MS", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 13px; -webkit-font-smoothing: antialiased; }
+    button, input, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1200px, calc(100% - 48px)); margin-inline: auto; }
+    .topline { background: var(--green-dark); color: #e8eddf; font-size: 10px; }
+    .topline-inner { min-height: 34px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .topline strong { color: var(--lime); }
+    .nav { min-height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; }
+    .brand-mark { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 9px; background: var(--green); color: var(--lime); font-size: 17px; }
+    .brand small { display: block; margin-top: 1px; color: var(--muted); font-size: 9px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+    .nav-links { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; color: #485046; font-size: 11px; font-weight: 600; }
+    .nav-links a:hover { color: var(--green); }
+    main { padding-block: 30px 52px; }
+    .page-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 20px; }
+    .eyebrow { color: var(--orange); font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
+    h1 { margin: 7px 0 5px; font-size: 29px; font-weight: 600; line-height: 1.2; }
+    .page-heading p { margin: 0; color: var(--muted); font-size: 11px; }
+    .demo-badge { border: 1px solid var(--line); border-radius: 3px; padding: 7px 9px; color: var(--muted); font-size: 9px; font-weight: 700; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+    .stat { padding: 13px 15px; border: 1px solid var(--line); border-radius: 4px; background: var(--white); }
+    .stat span { display: block; color: var(--muted); font-size: 9px; }
+    .stat strong { display: block; margin-top: 5px; color: var(--green-dark); font-size: 21px; }
+    .stat.alert-stat strong { color: #a44f35; }
+    .analytics { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .analytics-content { padding: 13px 15px; }
+    .distribution { display: grid; gap: 11px; }
+    .distribution-row { display: grid; grid-template-columns: 105px 1fr 22px; align-items: center; gap: 9px; font-size: 9px; }
+    .distribution-label { overflow: hidden; color: #5e655a; text-overflow: ellipsis; white-space: nowrap; }
+    .meter { height: 7px; overflow: hidden; border-radius: 5px; background: #edf0e9; }
+    .meter-fill { width: 0; height: 100%; border-radius: inherit; background: #7e9f7a; transition: width .25s ease; }
+    .meter-fill.issue-fill { background: var(--orange); }
+    .distribution-count { font-weight: 700; text-align: right; }
+    .trend-chart { height: 132px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); align-items: end; gap: 10px; padding: 6px 6px 0; }
+    .trend-day { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: end; gap: 6px; }
+    .trend-value { color: var(--muted); font-size: 8px; }
+    .trend-bar { width: min(25px, 70%); height: var(--bar-height); min-height: 4px; border-radius: 3px 3px 0 0; background: #87a984; }
+    .trend-day:nth-child(3n+2) .trend-bar { background: #b7c77f; }
+    .trend-label { padding-top: 6px; border-top: 1px solid var(--line); color: var(--muted); font-size: 8px; }
+    .chart-note { margin: 8px 0 0; color: #858b80; font-size: 8px; }
+    .workbench { display: grid; grid-template-columns: .92fr 1.08fr; align-items: start; gap: 14px; }
+    .panel { min-width: 0; border: 1px solid var(--line); border-radius: 4px; background: var(--white); }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 15px; border-bottom: 1px solid var(--line); }
+    .panel-head h2 { margin: 0; font-size: 12px; font-weight: 700; }
+    .panel-head small { color: var(--muted); font-size: 9px; }
+    .filters { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; padding: 11px; border-bottom: 1px solid var(--line); background: #fafaf6; }
+    .filters input, .filters select, .detail-select { min-width: 0; height: 34px; border: 1px solid #dfe1d7; border-radius: 3px; padding: 0 8px; background: #fff; color: var(--ink); font-size: 10px; }
+    .request-list { margin: 0; padding: 0; list-style: none; }
+    .request-row { display: grid; grid-template-columns: 1fr auto; width: 100%; gap: 8px 12px; border: 0; border-bottom: 1px solid #eeefe8; padding: 13px 14px; background: transparent; color: inherit; text-align: left; cursor: pointer; }
+    .request-row:last-child { border-bottom: 0; }
+    .request-row:hover, .request-row.selected { background: #f4f6ef; }
+    .request-main { min-width: 0; }
+    .request-main strong { display: block; overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .request-main span { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; }
+    .request-meta { display: flex; grid-column: 1 / -1; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 9px; }
+    .table-wrap { overflow-x: auto; }
+    .request-table { width: 100%; min-width: 570px; border-collapse: collapse; table-layout: fixed; text-align: left; }
+    .request-table th { padding: 9px 10px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 8px; font-weight: 700; text-transform: uppercase; }
+    .request-table td { padding: 9px 10px; border-bottom: 1px solid #eeefe8; font-size: 9px; vertical-align: middle; }
+    .request-table tbody tr:last-child td { border-bottom: 0; }
+    .request-table tbody tr:hover, .request-table tbody tr.selected { background: #f4f6ef; }
+    .request-table th:nth-child(1) { width: 23%; }
+    .request-table th:nth-child(2) { width: 25%; }
+    .request-table th:nth-child(3) { width: 20%; }
+    .request-table th:nth-child(4) { width: 18%; }
+    .request-table th:nth-child(5) { width: 14%; }
+    .table-select { display: grid; gap: 3px; border: 0; padding: 0; background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
+    .table-select strong { color: var(--green); font-size: 9px; }
+    .table-select span, .table-subtext { color: var(--muted); font-size: 8px; }
+    .table-status { display: inline-flex; border-radius: 3px; padding: 5px 6px; background: #f1f2eb; color: #646b60; font-size: 8px; font-weight: 700; }
+    .table-status.pending { background: #f8edda; color: #8c5b19; }
+    .table-status.good { background: var(--green-pale); color: var(--green); }
+    .table-status.issue { background: #f8e9e3; color: #a44f35; }
+    .priority-cell { color: #646b60; font-weight: 700; }
+    .priority-cell.high { color: #a44f35; }
+    .pagination { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 10px; border-top: 1px solid var(--line); }
+    .pagination label, .page-info { color: var(--muted); font-size: 9px; }
+    .page-size { height: 29px; margin-left: 5px; border: 1px solid var(--line); border-radius: 3px; padding: 0 6px; background: white; font-size: 9px; }
+    .page-controls { display: flex; align-items: center; gap: 5px; }
+    .page-button { min-height: 29px; border: 1px solid var(--line); border-radius: 3px; padding: 0 8px; background: transparent; color: var(--ink); font-size: 9px; cursor: pointer; }
+    .page-button:disabled { opacity: .45; cursor: default; }
+    .status { align-self: start; border-radius: 3px; padding: 5px 7px; background: #f1f2eb; color: #646b60; font-size: 9px; font-weight: 700; white-space: nowrap; }
+    .status.pending { background: #f8edda; color: #8c5b19; }
+    .status.good { background: var(--green-pale); color: var(--green); }
+    .status.issue { background: #f8e9e3; color: #a44f35; }
+    .detail-content { padding: 15px; }
+    .detail-title { display: flex; justify-content: space-between; align-items: start; gap: 12px; margin-bottom: 14px; }
+    .detail-title h3 { margin: 0; font-size: 16px; }
+    .detail-title p { margin: 5px 0 0; color: var(--muted); font-size: 10px; }
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px 16px; padding: 13px 0; border-block: 1px solid var(--line); }
+    .detail-field span { display: block; color: var(--muted); font-size: 9px; }
+    .detail-field strong { display: block; margin-top: 4px; font-size: 10px; font-weight: 600; }
+    .timeline { display: grid; gap: 8px; margin: 13px 0 15px; padding: 0; list-style: none; }
+    .timeline li { display: flex; align-items: baseline; gap: 9px; color: #62695e; font-size: 9px; }
+    .timeline li::before { width: 6px; height: 6px; flex: 0 0 6px; border-radius: 50%; background: #86a17e; content: ""; }
+    .assign-row { display: grid; grid-template-columns: 1fr auto; gap: 7px; margin-bottom: 9px; }
+    .button { display: inline-flex; min-height: 34px; align-items: center; justify-content: center; gap: 7px; border: 0; border-radius: 3px; padding: 0 11px; font-size: 10px; font-weight: 700; cursor: pointer; transition: background .18s ease; }
+    .button-primary { background: var(--green); color: white; }
+    .button-primary:hover { background: var(--green-dark); }
+    .button-light { border: 1px solid var(--line); background: transparent; color: var(--ink); }
+    .button-light:hover { background: #f4f6ef; }
+    .detail-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+    .button-danger { background: #f8e9e3; color: #9f4d36; }
+    .lower-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+    .management-list { margin: 0; padding: 0; list-style: none; }
+    .management-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 14px; border-bottom: 1px solid #eeefe8; }
+    .management-item:last-child { border-bottom: 0; }
+    .management-copy { min-width: 0; }
+    .management-copy strong { display: block; overflow: hidden; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+    .management-copy span { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; }
+    .small-action { flex: 0 0 auto; min-height: 29px; border: 1px solid var(--line); border-radius: 3px; padding: 0 8px; background: transparent; color: var(--green); font-size: 9px; font-weight: 700; cursor: pointer; }
+    .small-action:hover { border-color: var(--green); background: var(--green-pale); }
+    .iot-panel { margin-top: 14px; overflow: hidden; border-radius: 4px; background: var(--green-dark); color: white; }
+    .iot-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 15px; border-bottom: 1px solid rgba(255,255,255,.15); }
+    .iot-head h2 { margin: 0; font-size: 12px; }
+    .sensor { color: var(--lime); font-size: 9px; font-weight: 700; }
+    .iot-content { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 18px; padding: 13px 15px; }
+    .iot-content p { margin: 0; color: #cbd6c5; font-size: 10px; line-height: 1.6; }
+    .iot-content strong { color: white; }
+    .iot-metrics { display: flex; gap: 23px; }
+    .iot-metrics span { display: block; color: #cbd6c5; font-size: 9px; }
+    .iot-metrics strong { display: block; margin-top: 4px; color: var(--lime); font-size: 15px; }
+    .iot-alert { padding: 10px 15px; border-top: 1px solid rgba(255,255,255,.15); color: #f2dfb6; font-size: 9px; }
+    .demo-note { margin: 10px 0 0; color: #858b80; font-size: 9px; }
+    .notice { position: fixed; right: 18px; bottom: 18px; z-index: 4; max-width: min(360px, calc(100vw - 36px)); transform: translateY(12px); opacity: 0; pointer-events: none; border-radius: 4px; padding: 11px 14px; background: var(--green-dark); color: white; font-size: 10px; transition: opacity .2s ease, transform .2s ease; }
+    .notice.visible { transform: translateY(0); opacity: 1; }
+    footer { padding-block: 14px; background: var(--green-dark); color: #cbd6c5; font-size: 9px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 12px; }
+
+    @media (max-width: 900px) {
+      .workbench { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .wrap { width: calc(100% - 30px); }
+      .topline-inner { justify-content: center; }
+      .nav { align-items: start; flex-direction: column; gap: 12px; padding-block: 14px; }
+      .nav-links { gap: 8px 16px; }
+      main { padding-block: 24px 38px; }
+      .page-heading { align-items: start; flex-direction: column; gap: 12px; }
+      h1 { font-size: 25px; }
+      .stats { gap: 6px; }
+      .stat { padding: 10px 9px; }
+      .stat span { font-size: 8px; }
+      .stat strong { font-size: 18px; }
+      .analytics { grid-template-columns: 1fr; gap: 9px; }
+      .analytics-content { padding: 11px; }
+      .distribution-row { grid-template-columns: 90px 1fr 20px; }
+      .trend-chart { height: 118px; gap: 6px; }
+      .filters { grid-template-columns: 1fr 1fr; }
+      .detail-content { padding: 12px; }
+      .detail-grid { gap: 10px; }
+      .assign-row { grid-template-columns: 1fr; }
+      .detail-actions .button { flex: 1 1 40%; }
+      .lower-grid { grid-template-columns: 1fr; }
+      .iot-content { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+<style>.awaiting-auth body{visibility:hidden}</style><script src="./bridge.js"></script></head>
+<body>
+  <div class="topline"><div class="wrap topline-inner"><span><strong>Machinati · Équipe opérations</strong></span><span>Données backend</span></div></div>
+  <header class="wrap nav">
+    <div class="brand" aria-label="Machinati, équipe opérations"><span class="brand-mark">M.</span><span>MACHINATI<small>Coordination</small></span></div>
+    <nav class="nav-links" aria-label="Navigation opérations">
+      <a href="#demandes">Demandes</a>
+      <a href="#verification">Coopératives</a>
+      <a href="#annonces">Annonces</a>
+      <a href="#iot">Suivi IoT</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <header class="page-heading">
+      <div>
+        <span class="eyebrow">Vue d'ensemble</span>
+        <h1>Pilotage des locations</h1>
+        <p>Coordonnez les demandes entre clients et coopératives partenaires.</p>
+      </div>
+      <span class="demo-badge">Données backend</span>
+    </header>
+
+    <section class="stats" aria-label="Indicateurs opérationnels">
+      <div class="stat"><span>Demandes à traiter</span><strong id="pendingCount">1</strong></div>
+      <div class="stat"><span>Demandes approuvées</span><strong id="activeCount">0</strong></div>
+      <div class="stat alert-stat"><span>Demandes refusées</span><strong id="issueCount">0</strong></div>
+      <div class="stat"><span>Machines enregistrées</span><strong id="verificationCount">0</strong></div>
+    </section>
+
+    <section class="analytics" aria-label="Tableau de bord des activités">
+      <section class="panel" aria-labelledby="distributionTitle">
+        <div class="panel-head"><h2 id="distributionTitle">Demandes par statut</h2><small>Vue actuelle</small></div>
+        <div class="analytics-content distribution" id="statusDistribution">
+          <div class="distribution-row" data-distribution-status="À traiter"><span class="distribution-label">À traiter</span><span class="meter"><span class="meter-fill"></span></span><strong class="distribution-count">0</strong></div>
+          <div class="distribution-row" data-distribution-status="Approuvée"><span class="distribution-label">Approuvée</span><span class="meter"><span class="meter-fill"></span></span><strong class="distribution-count">0</strong></div>
+          <div class="distribution-row" data-distribution-status="Refusée"><span class="distribution-label">Refusée</span><span class="meter"><span class="meter-fill issue-fill"></span></span><strong class="distribution-count">0</strong></div>
+          <div class="distribution-row" data-distribution-status="Terminée"><span class="distribution-label">Terminée</span><span class="meter"><span class="meter-fill"></span></span><strong class="distribution-count">0</strong></div>
+        </div>
+      </section>
+      <section class="panel" aria-labelledby="trendTitle">
+        <div class="panel-head"><h2 id="trendTitle">Demandes reçues cette semaine</h2><small>7 jours</small></div>
+        <div class="analytics-content">
+          <div class="trend-chart" id="requestTrend" role="img" aria-label="Demandes enregistrées au cours des sept derniers jours"></div>
+          <p class="chart-note">Nombre de demandes enregistrées chaque jour.</p>
+        </div>
+      </section>
+    </section>
+
+    <div class="workbench" id="demandes">
+      <section class="panel" aria-labelledby="queueTitle">
+        <div class="panel-head"><h2 id="queueTitle">File des demandes</h2><small id="resultCount">36 demandes</small></div>
+        <div class="filters" aria-label="Filtres des demandes">
+          <input id="requestSearch" type="search" placeholder="Rechercher client ou machine" aria-label="Rechercher client ou machine">
+          <select id="statusFilter" aria-label="Filtrer par statut"><option value="">Tous les statuts</option><option>À traiter</option><option>Approuvée</option><option>Refusée</option><option>Terminée</option><option>Brouillon</option></select>
+          <select id="regionFilter" aria-label="Filtrer par région"><option value="">Toutes les régions</option><option>Fès-Meknès</option><option>Souss-Massa</option><option>Marrakech-Safi</option></select>
+          <select id="machineFilter" aria-label="Filtrer par machine"><option value="">Toutes les machines</option><option>Tracteur</option><option>Irrigation</option><option>Moissonneuse</option></select>
+          <input id="dateFilter" type="date" aria-label="Filtrer par date de début">
+          <select id="priorityFilter" aria-label="Trier les demandes"><option value="date">Date la plus récente</option><option value="updated">Dernière mise à jour</option></select>
+        </div>
+        <div class="table-wrap">
+          <table class="request-table">
+            <thead><tr><th scope="col">Demande</th><th scope="col">Machine</th><th scope="col">Date · localité</th><th scope="col">Statut</th><th scope="col">Mise à jour</th></tr></thead>
+            <tbody id="requestList" aria-live="polite"></tbody>
+          </table>
+        </div>
+        <div class="pagination" aria-label="Pagination des demandes">
+          <label for="pageSize">Lignes par page<select class="page-size" id="pageSize"><option value="10">10</option><option value="25">25</option><option value="50">50</option></select></label>
+          <span class="page-info" id="pageInfo">1–10 sur 36 · page 1/4</span>
+          <div class="page-controls"><button class="page-button" id="previousPage" type="button" disabled>Précédent</button><button class="page-button" id="nextPage" type="button">Suivant</button></div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="detailTitle">
+        <div class="panel-head"><h2 id="detailTitle">Détail de la demande</h2><small id="detailId">—</small></div>
+        <div class="detail-content" id="requestDetail">
+          <div class="detail-title"><div><h3 id="detailMachine">Sélectionnez une demande</h3><p id="detailClient">Les détails réels apparaîtront ici.</p></div><span class="status pending" id="detailStatus">—</span></div>
+          <div class="detail-grid">
+            <div class="detail-field"><span>Date souhaitée</span><strong id="detailDates">—</strong></div>
+            <div class="detail-field"><span>Localité</span><strong id="detailRegion">—</strong></div>
+            <div class="detail-field"><span>Attribution</span><strong id="detailCooperative">Non disponible</strong></div>
+            <div class="detail-field"><span>Superficie</span><strong id="detailPriority">—</strong></div>
+          </div>
+          <ol class="timeline" id="detailHistory" aria-label="Historique de la demande"></ol>
+          <div class="assign-row">
+            <select class="detail-select" id="cooperativeSelect" aria-label="Attribuer une coopérative" disabled><option>Affectation non disponible</option></select>
+            <button class="button button-light" id="assignButton" type="button" disabled title="L'API ne permet pas encore d'attribuer une coopérative">Attribuer</button>
+          </div>
+          <div class="detail-actions">
+            <button class="button button-primary" id="confirmButton" type="button" disabled>Approuver la demande</button>
+            <button class="button button-light" id="advanceButton" type="button" disabled>Terminer la demande</button>
+            <button class="button button-danger" id="incidentButton" type="button" disabled title="L'API ne gère pas encore les incidents">Signaler un incident</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="lower-grid">
+      <section class="panel" id="verification" aria-labelledby="verificationTitle">
+        <div class="panel-head"><h2 id="verificationTitle">Vérification des coopératives</h2><small>API non disponible</small></div>
+        <ul class="management-list" id="cooperativeList"></ul>
+      </section>
+
+      <section class="panel" id="annonces" aria-labelledby="moderationTitle">
+        <div class="panel-head"><h2 id="moderationTitle">Inventaire du matériel</h2><small>Depuis le backend</small></div>
+        <ul class="management-list" id="announcementList"></ul>
+      </section>
+    </div>
+
+    <section class="iot-panel" id="iot" aria-labelledby="iotTitle">
+      <div class="iot-head"><h2 id="iotTitle">Suivi IoT et alertes</h2><span class="sensor">API IoT non disponible</span></div>
+      <div class="iot-content">
+        <p>Les données de localisation, d'utilisation et d'entretien ne sont pas encore fournies par le backend.</p>
+      </div>
+      <div class="iot-alert">Aucune télémétrie n'est disponible pour le moment.</div>
+    </section>
+    <p class="demo-note">Demandes et inventaire chargés depuis le backend. Vérification des coopératives, attribution et suivi IoT non disponibles dans l'API.</p>
+  </main>
+
+  <footer><div class="wrap footer-inner"><span>© 2026 Machinati · Équipe opérations</span><span>Données backend</span></div></footer>
+  <div class="notice" id="notice" role="status" aria-live="polite"></div>
+
+  <script>
+window.machinatiReady.then(ready => { if (!ready) return;
+    const apiBaseUrl = "";
+    if (new URLSearchParams(window.location.search).get("panel") === "overview") {
+      const requestWorkbench = document.getElementById("demandes");
+      const requestsLink = document.querySelector('.nav-links a[href="#demandes"]');
+      requestWorkbench.hidden = true;
+      requestWorkbench.style.display = 'none';
+      requestsLink.hidden = true;
+      requestsLink.style.display = 'none';
+    }
+    const statusLabels = { draft: "Brouillon", pending_review: "À traiter", approved: "Approuvée", rejected: "Refusée", completed: "Terminée" };
+    let requests = [];
+    let machines = [];
+    let selectedRequestId = null;
+    let currentPage = 1;
+    let noticeTimer;
+
+    const requestList = document.getElementById("requestList");
+    const pageSizeSelect = document.getElementById("pageSize");
+    const filters = ["requestSearch", "statusFilter", "regionFilter", "machineFilter", "dateFilter", "priorityFilter"];
+    const filterElements = filters.map((id) => document.getElementById(id));
+
+    window.machinatiNotice = showNotice;
+    function showNotice(message) {
+      const notice = document.getElementById("notice");
+      notice.textContent = message;
+      notice.classList.add("visible");
+      clearTimeout(noticeTimer);
+      noticeTimer = setTimeout(() => notice.classList.remove("visible"), 3200);
+    }
+
+    async function getJson(path, options) {
+      const response = await fetch(`${apiBaseUrl}${path}`, options);
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        throw new Error(body.detail || `Erreur API (${response.status})`);
+      }
+      return response.json();
+    }
+
+    const typeLabels = { harvester: "Moissonneuse", irrigation_pump: "Irrigation", baler: "Presse à foin", sprayer: "Pulvérisateur", tractor: "Tracteur", combine_harvester: "Moissonneuse", irrigation: "Irrigation", soil_preparation: "Préparation du sol", transport: "Transport" };
+
+    function formatDate(value) {
+      if (!value) return "—";
+      const parsed = new Date(value.replace(" ", "T"));
+      return Number.isNaN(parsed.getTime()) ? value : new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium" }).format(parsed);
+    }
+
+    function updateOptions(select, label, values) {
+      const current = select.value;
+      const options = [...new Set(values.filter(Boolean))].sort((first, second) => first.localeCompare(second, "fr"));
+      select.replaceChildren(new Option(label, ""), ...options.map((value) => new Option(value, value)));
+      if (options.includes(current)) select.value = current;
+    }
+
+    function mapRequest(record) {
+      const payload = record.payload || {};
+      const machineType = payload.machine_type || "";
+      const machine = record.matching_machines?.[0];
+      const date = payload.preferred_date || record.created_at?.slice(0, 10) || "";
+      return {
+        id: String(record.id),
+        apiId: record.id,
+        client: record.farmer_phone,
+        machine: machine?.name || typeLabels[machineType] || machineType || "Matériel non précisé",
+        type: typeLabels[machineType] || machineType,
+        dates: payload.preferred_date || payload.preferred_date_text || "Non précisée",
+        date,
+        region: payload.location || "",
+        city: payload.location || "",
+        cooperative: "Non attribuée",
+        status: statusLabels[record.status] || record.status,
+        statusCode: record.status,
+        priority: "—",
+        notes: `Demande enregistrée le ${formatDate(record.created_at)}.`,
+        area: payload.area_hectares,
+        createdAt: record.created_at || "",
+        updatedAt: record.updated_at || record.created_at || "",
+      };
+    }
+
+    async function loadDashboard() {
+      try {
+        const [requestRecords, machineRecords] = await Promise.all([
+          getJson("/api/requests"),
+          getJson("/api/machines"),
+        ]);
+        machines = machineRecords;
+        requests = requestRecords.map(mapRequest);
+        if (!requests.some((request) => request.id === selectedRequestId)) selectedRequestId = requests[0]?.id || null;
+        updateOptions(document.getElementById("regionFilter"), "Toutes les localités", requests.map((request) => request.region));
+        updateOptions(document.getElementById("machineFilter"), "Toutes les machines", requests.map((request) => request.type));
+        updateSummary();
+        renderRequests();
+        renderInventory();
+      } catch (error) {
+        showNotice(`Impossible de charger les données : ${error.message}`);
+      }
+    }
+
+    function updateSummary() {
+      document.getElementById("pendingCount").textContent = requests.filter((request) => request.statusCode === "pending_review").length;
+      document.getElementById("activeCount").textContent = requests.filter((request) => request.statusCode === "approved").length;
+      document.getElementById("issueCount").textContent = requests.filter((request) => request.statusCode === "rejected").length;
+      document.getElementById("verificationCount").textContent = machines.length;
+      renderDistribution();
+      renderTrend();
+    }
+
+    function renderDistribution() {
+      const distributionRows = document.querySelectorAll("[data-distribution-status]");
+      const counts = [...distributionRows].map((row) => requests.filter((request) => request.status === row.dataset.distributionStatus).length);
+      const maximum = Math.max(1, ...counts);
+
+      distributionRows.forEach((row, index) => {
+        const count = counts[index];
+        const meter = row.querySelector(".meter");
+        row.querySelector(".distribution-count").textContent = count;
+        row.querySelector(".meter-fill").style.width = `${(count / maximum) * 100}%`;
+        meter.setAttribute("role", "meter");
+        meter.setAttribute("aria-valuemin", "0");
+        meter.setAttribute("aria-valuemax", String(maximum));
+        meter.setAttribute("aria-valuenow", String(count));
+        meter.setAttribute("aria-label", `${row.dataset.distributionStatus}: ${count} demande${count > 1 ? "s" : ""}`);
+      });
+    }
+
+    function renderTrend() {
+      const chart = document.getElementById("requestTrend");
+      const days = [];
+      for (let offset = 6; offset >= 0; offset -= 1) {
+        const day = new Date();
+        day.setHours(0, 0, 0, 0);
+        day.setDate(day.getDate() - offset);
+        const key = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
+        days.push({ key, day, count: requests.filter((request) => request.createdAt.slice(0, 10) === key).length });
+      }
+      const maximum = Math.max(1, ...days.map((day) => day.count));
+      chart.replaceChildren();
+      for (const day of days) {
+        const column = document.createElement("div");
+        column.className = "trend-day";
+        const value = document.createElement("span");
+        value.className = "trend-value";
+        value.textContent = day.count;
+        const bar = document.createElement("i");
+        bar.className = "trend-bar";
+        bar.style.setProperty("--bar-height", `${(day.count / maximum) * 100}%`);
+        const label = document.createElement("span");
+        label.className = "trend-label";
+        label.textContent = new Intl.DateTimeFormat("fr-FR", { weekday: "short" }).format(day.day);
+        column.append(value, bar, label);
+        chart.append(column);
+      }
+    }
+
+    function renderRequests() {
+      const [search, status, region, machine, date, sort] = filterElements.map((element) => element.value);
+      const query = search.trim().toLocaleLowerCase("fr");
+      const matches = requests.filter((request) => {
+        const searchable = `${request.id} ${request.client} ${request.machine} ${request.region} ${request.cooperative}`.toLocaleLowerCase("fr");
+        return (!query || searchable.includes(query)) && (!status || request.status === status) && (!region || request.region === region) && (!machine || request.type === machine) && (!date || request.date === date);
+      });
+      matches.sort((first, second) => sort === "updated" ? second.updatedAt.localeCompare(first.updatedAt) : second.date.localeCompare(first.date));
+      document.getElementById("resultCount").textContent = `${matches.length} demande${matches.length > 1 ? "s" : ""}`;
+      const pageSize = Number(pageSizeSelect.value);
+      const pageCount = Math.max(1, Math.ceil(matches.length / pageSize));
+      currentPage = Math.min(currentPage, pageCount);
+      const firstIndex = (currentPage - 1) * pageSize;
+      const pageMatches = matches.slice(firstIndex, firstIndex + pageSize);
+      document.getElementById("pageInfo").textContent = matches.length ? `${firstIndex + 1}–${Math.min(firstIndex + pageSize, matches.length)} sur ${matches.length} · page ${currentPage}/${pageCount}` : "Aucune demande";
+      document.getElementById("previousPage").disabled = currentPage === 1;
+      document.getElementById("nextPage").disabled = currentPage === pageCount;
+      requestList.replaceChildren();
+
+      for (const request of pageMatches) {
+        const row = document.createElement("tr");
+        if (request.id === selectedRequestId) row.classList.add("selected");
+        const requestCell = document.createElement("td");
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "table-select";
+        button.dataset.requestId = request.id;
+        const requestId = document.createElement("strong");
+        requestId.textContent = request.id;
+        const client = document.createElement("span");
+        client.textContent = request.client;
+        button.append(requestId, client);
+        requestCell.append(button);
+        const machineCell = document.createElement("td");
+        machineCell.textContent = request.machine;
+        const dateCell = document.createElement("td");
+        const dateText = document.createElement("span");
+        dateText.textContent = request.dates;
+        const regionText = document.createElement("span");
+        regionText.className = "table-subtext";
+        regionText.textContent = request.region || "Localité non précisée";
+        dateCell.append(dateText, document.createElement("br"), regionText);
+        const statusCell = document.createElement("td");
+        const badge = document.createElement("span");
+        badge.className = `table-status${request.statusCode === "pending_review" ? " pending" : request.statusCode === "rejected" ? " issue" : " good"}`;
+        badge.textContent = request.status;
+        statusCell.append(badge);
+        const priorityCell = document.createElement("td");
+        priorityCell.className = "table-subtext";
+        priorityCell.textContent = formatDate(request.updatedAt);
+        row.append(requestCell, machineCell, dateCell, statusCell, priorityCell);
+        requestList.append(row);
+      }
+
+      if (!matches.length) {
+        const empty = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 5;
+        cell.className = "table-subtext";
+        cell.textContent = "Aucune demande ne correspond à ces filtres.";
+        empty.append(cell);
+        requestList.append(empty);
+      }
+
+      if (!matches.length) {
+        selectedRequestId = null;
+        for (const id of ["detailId", "detailMachine", "detailClient", "detailDates", "detailRegion", "detailCooperative", "detailPriority", "detailStatus"]) document.getElementById(id).textContent = "—";
+        document.getElementById("detailHistory").replaceChildren();
+        document.getElementById("confirmButton").disabled = true;
+        document.getElementById("advanceButton").disabled = true;
+        return;
+      }
+      if (matches.length && !matches.some((request) => request.id === selectedRequestId)) {
+        selectedRequestId = matches[0].id;
+      }
+      const selected = requests.find((request) => request.id === selectedRequestId);
+      if (selected) renderDetail(selected);
+    }
+
+    function renderDetail(request) {
+      document.getElementById("detailId").textContent = request.id;
+      document.getElementById("detailMachine").textContent = request.machine;
+      document.getElementById("detailClient").textContent = `${request.client} · Demande reçue le ${formatDate(request.createdAt)}`;
+      document.getElementById("detailDates").textContent = request.dates;
+      document.getElementById("detailRegion").textContent = request.region || "Non précisée";
+      document.getElementById("detailCooperative").textContent = request.cooperative;
+      document.getElementById("detailPriority").textContent = request.area == null ? "—" : `${request.area} ha`;
+      const status = document.getElementById("detailStatus");
+      status.textContent = request.status;
+      status.className = `status${request.statusCode === "pending_review" ? " pending" : request.statusCode === "rejected" ? " issue" : " good"}`;
+      document.getElementById("confirmButton").disabled = request.statusCode !== "pending_review";
+      document.getElementById("advanceButton").disabled = request.statusCode !== "approved";
+      const history = document.getElementById("detailHistory");
+      history.replaceChildren();
+      for (const note of [request.notes, `Statut actuel : ${request.status}.`, `Dernière mise à jour : ${formatDate(request.updatedAt)}.`]) {
+        const entry = document.createElement("li");
+        entry.textContent = note;
+        history.append(entry);
+      }
+    }
+
+    function renderInventory() {
+      const inventory = document.getElementById("announcementList");
+      inventory.replaceChildren();
+      for (const machine of machines) {
+        const row = document.createElement("li");
+        row.className = "management-item";
+        const details = document.createElement("div");
+        details.className = "management-copy";
+        const name = document.createElement("strong");
+        name.textContent = machine.name;
+        const description = document.createElement("span");
+        description.textContent = [typeLabels[machine.machine_type] || machine.machine_type, machine.location].filter(Boolean).join(" · ");
+        details.append(name, description);
+        const status = document.createElement("span");
+        status.className = `status ${machine.available && !machine.reserved_for_own_use ? "good" : "issue"}`;
+        status.textContent = machine.available && !machine.reserved_for_own_use ? "Disponible" : "Indisponible";
+        row.append(details, status);
+        inventory.append(row);
+      }
+    }
+
+    requestList.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-request-id]");
+      if (!button) return;
+      selectedRequestId = button.dataset.requestId;
+      renderRequests();
+    });
+
+    filterElements.forEach((element) => element.addEventListener(element.tagName === "INPUT" && element.type === "search" ? "input" : "change", () => {
+      currentPage = 1;
+      renderRequests();
+    }));
+    pageSizeSelect.addEventListener("change", () => {
+      currentPage = 1;
+      renderRequests();
+    });
+    document.getElementById("previousPage").addEventListener("click", () => {
+      currentPage = Math.max(1, currentPage - 1);
+      renderRequests();
+    });
+    document.getElementById("nextPage").addEventListener("click", () => {
+      currentPage += 1;
+      renderRequests();
+    });
+
+    async function updateSelectedStatus(status) {
+      const request = requests.find((item) => item.id === selectedRequestId);
+      if (!request) return;
+      try {
+        await getJson(`/api/requests/${request.apiId}/status`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status }),
+        });
+        showNotice(`Demande ${statusLabels[status].toLocaleLowerCase("fr-FR")}.`);
+        await loadDashboard();
+      } catch (error) {
+        showNotice(`Mise à jour impossible : ${error.message}`);
+      }
+    }
+
+    document.getElementById("confirmButton").addEventListener("click", () => updateSelectedStatus("approved"));
+    document.getElementById("advanceButton").addEventListener("click", () => updateSelectedStatus("completed"));
+    loadDashboard();
+    setInterval(loadDashboard, 10000);
+
+});
+  </script>
+</body>
+</html>

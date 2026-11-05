@@ -1,0 +1,2580 @@
+{
+  "source_sha256": "0ca0f4d560da792e398de5e7edde99df0c4e6a4bf6acd7473d86f042b65f6e2a",
+  "now": "2026-11-05T12:00:00",
+  "scores": [
+    {
+      "payload": {
+        "urgency_level": "normal"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "match",
+      "score": 15,
+      "reason": "Demande normale ou flexible · Machine du bon type disponible dans la localité"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "match",
+      "score": 20,
+      "reason": "Demande normale ou flexible · Machine du bon type disponible dans la localité · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "match",
+      "score": 25,
+      "reason": "Demande normale ou flexible · Machine du bon type disponible dans la localité · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "transport_review",
+      "score": 5,
+      "reason": "Demande normale ou flexible · Machine du bon type disponible, transport à vérifier"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "transport_review",
+      "score": 10,
+      "reason": "Demande normale ou flexible · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "transport_review",
+      "score": 15,
+      "reason": "Demande normale ou flexible · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "date_review",
+      "score": 0,
+      "reason": "Demande normale ou flexible"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "date_review",
+      "score": 5,
+      "reason": "Demande normale ou flexible · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "date_review",
+      "score": 10,
+      "reason": "Demande normale ou flexible · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "unavailable",
+      "score": 0,
+      "reason": "Demande normale ou flexible"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "unavailable",
+      "score": 5,
+      "reason": "Demande normale ou flexible · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "unavailable",
+      "score": 10,
+      "reason": "Demande normale ou flexible · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "match",
+      "score": 20,
+      "reason": "Demande normale ou flexible · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "match",
+      "score": 25,
+      "reason": "Demande normale ou flexible · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "match",
+      "score": 30,
+      "reason": "Demande normale ou flexible · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "transport_review",
+      "score": 10,
+      "reason": "Demande normale ou flexible · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "transport_review",
+      "score": 15,
+      "reason": "Demande normale ou flexible · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "transport_review",
+      "score": 20,
+      "reason": "Demande normale ou flexible · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "date_review",
+      "score": 5,
+      "reason": "Demande normale ou flexible · Fenêtre de disponibilité précisée"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "date_review",
+      "score": 10,
+      "reason": "Demande normale ou flexible · Fenêtre de disponibilité précisée · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "date_review",
+      "score": 15,
+      "reason": "Demande normale ou flexible · Fenêtre de disponibilité précisée · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "unavailable",
+      "score": 5,
+      "reason": "Demande normale ou flexible · Fenêtre de disponibilité précisée"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "unavailable",
+      "score": 10,
+      "reason": "Demande normale ou flexible · Fenêtre de disponibilité précisée · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "unavailable",
+      "score": 15,
+      "reason": "Demande normale ou flexible · Fenêtre de disponibilité précisée · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "match",
+      "score": 25,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Machine du bon type disponible dans la localité"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "match",
+      "score": 30,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Machine du bon type disponible dans la localité · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "match",
+      "score": 35,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Machine du bon type disponible dans la localité · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "transport_review",
+      "score": 15,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Machine du bon type disponible, transport à vérifier"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "transport_review",
+      "score": 20,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "transport_review",
+      "score": 25,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "date_review",
+      "score": 10,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "date_review",
+      "score": 15,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "date_review",
+      "score": 20,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "unavailable",
+      "score": 10,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "unavailable",
+      "score": 15,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "unavailable",
+      "score": 20,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "match",
+      "score": 30,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "match",
+      "score": 35,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "match",
+      "score": 40,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "transport_review",
+      "score": 20,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "transport_review",
+      "score": 25,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "transport_review",
+      "score": 30,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "date_review",
+      "score": 15,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Fenêtre de disponibilité précisée"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "date_review",
+      "score": 20,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "date_review",
+      "score": 25,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "unavailable",
+      "score": 15,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Fenêtre de disponibilité précisée"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "unavailable",
+      "score": 20,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "normal",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "unavailable",
+      "score": 25,
+      "reason": "Demande normale ou flexible · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "match",
+      "score": 40,
+      "reason": "Urgence déclarée, validation humaine requise · Machine du bon type disponible dans la localité"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "match",
+      "score": 45,
+      "reason": "Urgence déclarée, validation humaine requise · Machine du bon type disponible dans la localité · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "match",
+      "score": 50,
+      "reason": "Urgence déclarée, validation humaine requise · Machine du bon type disponible dans la localité · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "transport_review",
+      "score": 30,
+      "reason": "Urgence déclarée, validation humaine requise · Machine du bon type disponible, transport à vérifier"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "transport_review",
+      "score": 35,
+      "reason": "Urgence déclarée, validation humaine requise · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "transport_review",
+      "score": 40,
+      "reason": "Urgence déclarée, validation humaine requise · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "date_review",
+      "score": 25,
+      "reason": "Urgence déclarée, validation humaine requise"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "date_review",
+      "score": 30,
+      "reason": "Urgence déclarée, validation humaine requise · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "date_review",
+      "score": 35,
+      "reason": "Urgence déclarée, validation humaine requise · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "unavailable",
+      "score": 25,
+      "reason": "Urgence déclarée, validation humaine requise"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "unavailable",
+      "score": 30,
+      "reason": "Urgence déclarée, validation humaine requise · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "unavailable",
+      "score": 35,
+      "reason": "Urgence déclarée, validation humaine requise · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "match",
+      "score": 45,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "match",
+      "score": 50,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "match",
+      "score": 55,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "transport_review",
+      "score": 35,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "transport_review",
+      "score": 40,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "transport_review",
+      "score": 45,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "date_review",
+      "score": 30,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "date_review",
+      "score": 35,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "date_review",
+      "score": 40,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "unavailable",
+      "score": 30,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "unavailable",
+      "score": 35,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "unavailable",
+      "score": 40,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "match",
+      "score": 50,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Machine du bon type disponible dans la localité"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "match",
+      "score": 55,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Machine du bon type disponible dans la localité · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "match",
+      "score": 60,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Machine du bon type disponible dans la localité · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "transport_review",
+      "score": 40,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Machine du bon type disponible, transport à vérifier"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "transport_review",
+      "score": 45,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "transport_review",
+      "score": 50,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "date_review",
+      "score": 35,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "date_review",
+      "score": 40,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "date_review",
+      "score": 45,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "unavailable",
+      "score": 35,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "unavailable",
+      "score": 40,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "unavailable",
+      "score": 45,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "match",
+      "score": 55,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "match",
+      "score": 60,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "match",
+      "score": 65,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "transport_review",
+      "score": 45,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "transport_review",
+      "score": 50,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "transport_review",
+      "score": 55,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "date_review",
+      "score": 40,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "date_review",
+      "score": 45,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "date_review",
+      "score": 50,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "unavailable",
+      "score": 40,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "unavailable",
+      "score": 45,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "urgent",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "unavailable",
+      "score": 50,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "match",
+      "score": 55,
+      "reason": "Urgence déclarée, validation humaine requise · Machine du bon type disponible dans la localité"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "match",
+      "score": 60,
+      "reason": "Urgence déclarée, validation humaine requise · Machine du bon type disponible dans la localité · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "match",
+      "score": 65,
+      "reason": "Urgence déclarée, validation humaine requise · Machine du bon type disponible dans la localité · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "transport_review",
+      "score": 45,
+      "reason": "Urgence déclarée, validation humaine requise · Machine du bon type disponible, transport à vérifier"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "transport_review",
+      "score": 50,
+      "reason": "Urgence déclarée, validation humaine requise · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "transport_review",
+      "score": 55,
+      "reason": "Urgence déclarée, validation humaine requise · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "date_review",
+      "score": 40,
+      "reason": "Urgence déclarée, validation humaine requise"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "date_review",
+      "score": 45,
+      "reason": "Urgence déclarée, validation humaine requise · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "date_review",
+      "score": 50,
+      "reason": "Urgence déclarée, validation humaine requise · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "unavailable",
+      "score": 40,
+      "reason": "Urgence déclarée, validation humaine requise"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "unavailable",
+      "score": 45,
+      "reason": "Urgence déclarée, validation humaine requise · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "unavailable",
+      "score": 50,
+      "reason": "Urgence déclarée, validation humaine requise · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "match",
+      "score": 60,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "match",
+      "score": 65,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "match",
+      "score": 70,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "transport_review",
+      "score": 50,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "transport_review",
+      "score": 55,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "transport_review",
+      "score": 60,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "date_review",
+      "score": 45,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "date_review",
+      "score": 50,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "date_review",
+      "score": 55,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "unavailable",
+      "score": 45,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "unavailable",
+      "score": 50,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "unavailable",
+      "score": 55,
+      "reason": "Urgence déclarée, validation humaine requise · Fenêtre de disponibilité précisée · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "match",
+      "score": 65,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Machine du bon type disponible dans la localité"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "match",
+      "score": 70,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Machine du bon type disponible dans la localité · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "match",
+      "score": 75,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Machine du bon type disponible dans la localité · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "transport_review",
+      "score": 55,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Machine du bon type disponible, transport à vérifier"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "transport_review",
+      "score": 60,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "transport_review",
+      "score": 65,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "date_review",
+      "score": 50,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "date_review",
+      "score": 55,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "date_review",
+      "score": 60,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "unavailable",
+      "score": 50,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "unavailable",
+      "score": 55,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "unavailable",
+      "score": 60,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "match",
+      "score": 70,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "match",
+      "score": 75,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "match",
+      "score": 80,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible dans la localité · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "transport_review",
+      "score": 60,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "transport_review",
+      "score": 65,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "transport_review",
+      "score": 70,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Machine du bon type disponible, transport à vérifier · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "date_review",
+      "score": 55,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "date_review",
+      "score": 60,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "date_review",
+      "score": 65,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Demande en attente depuis 10 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-11-05T12:00:00",
+      "fit": "unavailable",
+      "score": 55,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-31T12:00:00",
+      "fit": "unavailable",
+      "score": 60,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Demande en attente depuis 5 jour(s)"
+    },
+    {
+      "payload": {
+        "urgency_level": "critical",
+        "verified_by": "reviewer",
+        "urgent_window_start": "2026-11-12",
+        "urgent_window_end": "2026-11-17"
+      },
+      "created_at": "2026-10-16T12:00:00",
+      "fit": "unavailable",
+      "score": 65,
+      "reason": "Urgence déclarée, validation humaine requise · Urgence validée par la coopérative · Fenêtre de disponibilité précisée · Demande en attente depuis 10 jour(s)"
+    }
+  ],
+  "matches": [
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 0,
+          "reserved_for_own_use": 0,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-11-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 0,
+          "reserved_for_own_use": 0,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-12-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 0,
+          "reserved_for_own_use": 0,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 0,
+          "reserved_for_own_use": 0,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-11-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 0,
+          "reserved_for_own_use": 0,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-12-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 0,
+          "reserved_for_own_use": 0,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 0,
+          "reserved_for_own_use": 1,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-11-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 0,
+          "reserved_for_own_use": 1,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-12-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 0,
+          "reserved_for_own_use": 1,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 0,
+          "reserved_for_own_use": 1,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-11-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 0,
+          "reserved_for_own_use": 1,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-12-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 0,
+          "reserved_for_own_use": 1,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 1,
+          "reserved_for_own_use": 0,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "match",
+      "reason": "ماكينة من نفس النوع متاحة فنفس المنطقة",
+      "ids": [
+        1
+      ]
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-11-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 1,
+          "reserved_for_own_use": 0,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "match",
+      "reason": "ماكينة من نفس النوع متاحة فنفس المنطقة",
+      "ids": [
+        1
+      ]
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-12-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 1,
+          "reserved_for_own_use": 0,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "match",
+      "reason": "ماكينة من نفس النوع متاحة فنفس المنطقة",
+      "ids": [
+        1
+      ]
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 1,
+          "reserved_for_own_use": 0,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "date_review",
+      "reason": "خاص التاريخ يتأكد من بعد قبل اقتراح الماكينة",
+      "ids": [
+        1
+      ]
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-11-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 1,
+          "reserved_for_own_use": 0,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "match",
+      "reason": "ماكينة من نفس النوع متاحة فنفس المنطقة",
+      "ids": [
+        1
+      ]
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-12-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 1,
+          "reserved_for_own_use": 0,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة متاحة فالفترة المطلوبة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 1,
+          "reserved_for_own_use": 1,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "الماكينات المطابقة محجوزة للاستعمال الشخصي",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-11-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 1,
+          "reserved_for_own_use": 1,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "الماكينات المطابقة محجوزة للاستعمال الشخصي",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-12-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 1,
+          "reserved_for_own_use": 1,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "الماكينات المطابقة محجوزة للاستعمال الشخصي",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 1,
+          "reserved_for_own_use": 1,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "الماكينات المطابقة محجوزة للاستعمال الشخصي",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-11-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 1,
+          "reserved_for_own_use": 1,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "الماكينات المطابقة محجوزة للاستعمال الشخصي",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-12-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Meknes",
+          "available": 1,
+          "reserved_for_own_use": 1,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "الماكينات المطابقة محجوزة للاستعمال الشخصي",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 0,
+          "reserved_for_own_use": 0,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-11-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 0,
+          "reserved_for_own_use": 0,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-12-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 0,
+          "reserved_for_own_use": 0,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 0,
+          "reserved_for_own_use": 0,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-11-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 0,
+          "reserved_for_own_use": 0,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-12-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 0,
+          "reserved_for_own_use": 0,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 0,
+          "reserved_for_own_use": 1,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-11-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 0,
+          "reserved_for_own_use": 1,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-12-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 0,
+          "reserved_for_own_use": 1,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 0,
+          "reserved_for_own_use": 1,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-11-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 0,
+          "reserved_for_own_use": 1,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-12-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 0,
+          "reserved_for_own_use": 1,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة من هاد النوع متاحة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 1,
+          "reserved_for_own_use": 0,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "transport_review",
+      "reason": "النوع متاح ولكن خاص التحقق من النقل والمنطقة",
+      "ids": [
+        1
+      ]
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-11-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 1,
+          "reserved_for_own_use": 0,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "transport_review",
+      "reason": "النوع متاح ولكن خاص التحقق من النقل والمنطقة",
+      "ids": [
+        1
+      ]
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-12-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 1,
+          "reserved_for_own_use": 0,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "transport_review",
+      "reason": "النوع متاح ولكن خاص التحقق من النقل والمنطقة",
+      "ids": [
+        1
+      ]
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 1,
+          "reserved_for_own_use": 0,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "date_review",
+      "reason": "خاص التاريخ يتأكد من بعد قبل اقتراح الماكينة",
+      "ids": [
+        1
+      ]
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-11-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 1,
+          "reserved_for_own_use": 0,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "transport_review",
+      "reason": "النوع متاح ولكن خاص التحقق من النقل والمنطقة",
+      "ids": [
+        1
+      ]
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-12-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 1,
+          "reserved_for_own_use": 0,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "ما كايناش ماكينة متاحة فالفترة المطلوبة",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 1,
+          "reserved_for_own_use": 1,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "الماكينات المطابقة محجوزة للاستعمال الشخصي",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-11-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 1,
+          "reserved_for_own_use": 1,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "الماكينات المطابقة محجوزة للاستعمال الشخصي",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-12-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 1,
+          "reserved_for_own_use": 1,
+          "available_from": null,
+          "available_to": null
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "الماكينات المطابقة محجوزة للاستعمال الشخصي",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 1,
+          "reserved_for_own_use": 1,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "الماكينات المطابقة محجوزة للاستعمال الشخصي",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-11-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 1,
+          "reserved_for_own_use": 1,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "الماكينات المطابقة محجوزة للاستعمال الشخصي",
+      "ids": []
+    },
+    {
+      "payload": {
+        "machine_type": "tractor",
+        "location": "Meknes",
+        "preferred_date": "2026-12-15"
+      },
+      "machines": [
+        {
+          "id": 1,
+          "name": "Tractor",
+          "machine_type": "tractor",
+          "location": "Fes",
+          "available": 1,
+          "reserved_for_own_use": 1,
+          "available_from": "2026-11-12",
+          "available_to": "2026-11-30"
+        }
+      ],
+      "fit": "unavailable",
+      "reason": "الماكينات المطابقة محجوزة للاستعمال الشخصي",
+      "ids": []
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+/* Integration additions; original pages are isolated documents with their original CSS. */
+.machinati-original { min-height:100vh; background:#fff; }
+.machinati-original .integrated-nav nav a { display:flex; align-items:center; gap:7px; border-radius:6px; padding:9px 11px; color:#c4dfd1; font-size:12px; text-decoration:none; }
+.machinati-original .integrated-nav nav a.active, .machinati-original .integrated-nav nav a:hover { background:#28694e; color:#fff; }
+.machinati-original .login-wrap { padding:60px 20px; display:grid; place-items:center; }
+.machinati-original .login-panel { width:min(100%,460px); padding:30px; }
+.machinati-original .login-panel h1 { font-size:26px; margin-block:12px; }
+.machinati-original .login-panel form { display:grid; gap:18px; margin-top:24px; }
+.machinati-original .login-panel label { display:grid; gap:8px; font-size:13px; }
+.machinati-original .login-panel input { width:100%; padding:11px; border:1px solid #d8e5dc; border-radius:7px; }
+.machinati-original .login-panel button { padding:12px; border:0; border-radius:7px; background:#24583d; color:white; }
+.machinati-original .operations-tabs a { font-size:13px; padding:8px 12px; color:#24583d; }
+.machinati-original .shell { display:flex; }
+.machinati-original .shell main { padding:42px clamp(20px,4vw,64px); }
+.machinati-original .shell .brand span { display:block; }
+.machinati-original .sidefoot a { color:inherit; line-height:2; }
+.machinati-original .integrated-brand { padding:0; }
+@media(max-width:600px){
+ .machinati-original .integrated-nav nav a { flex:1; justify-content:center; padding:8px 3px; font-size:10px; gap:4px; }
+ .machinati-original .integrated-nav nav a svg { width:14px; height:14px; }
+ .machinati-original .shell main { padding:24px 15px; }
+ .machinati-original .operations-tabs { flex-wrap:wrap; }
+ .machinati-original .login-wrap { padding:30px 15px; }
+}
+/* Preserve original table inheritance against the extra integrated dashboards. */
+.machinati-original .shell table th, .machinati-original .shell table td { white-space:nowrap; min-width:0; }
+.machinati-original .shell .actions { flex-wrap:nowrap; }

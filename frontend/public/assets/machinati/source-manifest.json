@@ -1,0 +1,17 @@
+{
+  "catalogue": {
+    "source": "../../MACHINATI/frontend/public/catalogue.html",
+    "source_sha256": "76efd9a5b507bba6a4d257c41e9774d5806324af8172b43acf3800531847960b",
+    "original_style_sha256": "a17122072feec2429feac32740c6f9d4799cbdd51b137076150c3e71342589bc"
+  },
+  "cooperative": {
+    "source": "../../MACHINATI/frontend/cooperative.html",
+    "source_sha256": "c9a08ebf67034e39b41fe568126ec4c69e90eef95c0a0896ad0433c89dbb899f",
+    "original_style_sha256": "44877cf5d45549db61aaa8a459b6dac5aa7d4de9d95f9cf4fa8ca3caf6e834a6"
+  },
+  "operations": {
+    "source": "../../MACHINATI/frontend/equipe-machinati.html",
+    "source_sha256": "241ffe5eb9f21e24452135c09c88ff24bba36e14ba428f679d3994fa8d31ec44",
+    "original_style_sha256": "4798213e005896353b25dfb77690e8a6cac379da952bf70787aea5c7cdb59760"
+  }
+}
