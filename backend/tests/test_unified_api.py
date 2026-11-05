@@ -76,7 +76,7 @@ class AdditionalConversationTests(unittest.IsolatedAsyncioTestCase):
   self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
   p=patch.object(config,'DB_PATH',str(Path(self.temp.name)/'target.db'));p.start();self.addCleanup(p.stop);db.init_db()
  async def test_bare_area_location_and_relative_date_need_no_model(self):
-  with patch.object(service,'send_text',AsyncMock()),patch.object(service,'send_interactive',AsyncMock()),patch.object(conversation,'understand',AsyncMock(side_effect=AIError('unexpected'))) as model:
+  with patch.object(config,'CONVERSATION_ROUTING','rules_first'),patch.object(service,'send_text',AsyncMock()),patch.object(service,'send_interactive',AsyncMock()),patch.object(conversation,'understand',AsyncMock(side_effect=AIError('unexpected'))) as model:
    for i,text in enumerate(['tractor','labour','10','Meknes','demain','oui']):
     await service.handle_message({'id':str(i),'from':'owner','type':'text','text':{'body':text}})
   with db.connect() as con:
@@ -96,9 +96,9 @@ class AdditionalConversationTests(unittest.IsolatedAsyncioTestCase):
    self.assertEqual(call.call_args.args[2],'ollama')
 
 class SignedEndToEndTests(unittest.TestCase):
- def test_signed_whatsapp_to_priority_queue_and_operator_review(self):
+ def test_signed_whatsapp_to_priority_queue_and_admin_review(self):
   import hmac
-  with tempfile.TemporaryDirectory() as temp,patch.multiple(config,DB_PATH=str(Path(temp)/'flow.db'),META_APP_SECRET='test-secret',OPERATOR_API_KEY='operator-test'):
+  with tempfile.TemporaryDirectory() as temp,patch.multiple(config,DB_PATH=str(Path(temp)/'flow.db'),META_APP_SECRET='test-secret',OPERATOR_API_KEY='operator-test',ADMIN_API_KEY='admin-test',CONVERSATION_ROUTING='rules_first'):
    db.init_db()
    with db.connect() as con:
     con.execute("INSERT INTO machines(name,machine_type,location) VALUES ('Tracteur A','tracteur','مكناس')")
@@ -117,6 +117,7 @@ class SignedEndToEndTests(unittest.TestCase):
      self.assertEqual(len(records),1);request=records[0]
      self.assertEqual(request['status'],'pending_review');self.assertEqual(request['machine_fit'],'local')
      self.assertEqual(request['matching_machines'][0]['name'],'Tracteur A')
+     auth={'Authorization':'Bearer admin-test'}
      self.assertEqual(client.patch(f"/api/requests/{request['id']}/status?status=approved",headers=auth).status_code,200)
      self.assertEqual(client.patch(f"/api/requests/{request['id']}/status",headers=auth,json={'status':'completed'}).status_code,200)
    model.assert_not_awaited()

@@ -183,12 +183,13 @@ def deterministic_patch(text, pending=None, *, today=None):
         amount = float(positive.strip().replace(',', '.'))
         if amount > 0:
             patch['area_hectares'] = amount
+    from .locations import is_literal_location, clean_location
     place = re.fullmatch(r'(?:المكان\s+|(?:أنا|انا)\s+ف(?:ي)?\s+|في\s+|ف\s+)(.+)', positive)
-    if place:
-        patch['location'] = clean_field('location', place[1])
-    elif pending == 'location' and re.fullmatch(r'[\w\s]+', positive) and not patch:
+    if place and is_literal_location(place[1]):
+        patch['location'] = clean_field('location', clean_location(place[1]))
+    elif pending == 'location' and re.fullmatch(r'[\w\s]+', positive) and not patch and is_literal_location(positive):
         if not re.search(r'(?<!\w)(?:ما عرفت|ماعرفتش|نعم|لا|تعديل|هكتار|واش|كيفاش)(?!\w)', positive):
-            patch['location'] = clean_field('location', re.sub(r'^ف(?=ال)', '', positive))
+            patch['location'] = clean_field('location', clean_location(positive))
     resolved, mentioned = resolve_date(text, today)
     if mentioned:
         patch['preferred_date'] = resolved

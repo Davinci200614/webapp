@@ -156,6 +156,8 @@ def handle(phone, text):
                 name=excluded.name,location=excluded.location,work=excluded.work,
                 details=excluded.details,contact=excluded.contact,status='active' ''',
                 (phone, data['kind'], *(data[field] for field in FIELDS)))
+            from .request_workflow import dispatch
+            dispatch(con)
             con.execute('DELETE FROM employment_drafts WHERE phone=?', (phone,))
             return 'تنشر الإعلان ديالك.\nكتب إعلاناتي باش تشوفو، حذف عامل أو حذف خدمة باش تحيدو.'
         limit = 400 if pending == 'details' else 100

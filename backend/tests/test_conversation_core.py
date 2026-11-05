@@ -21,6 +21,7 @@ class ConversationCoreTests(unittest.IsolatedAsyncioTestCase):
         for target, attr, value in [
             (config, 'DB_PATH', str(Path(self.temp.name) / 'test.db')),
             (config, 'CONVERSATION_CORE', 'v2'),
+            (config, 'CONVERSATION_ROUTING', 'rules_first'),
             (extraction, 'casablanca_today', lambda: date(2026, 11, 4)),
         ]:
             context = patch.object(target, attr, value)
@@ -63,6 +64,30 @@ class ConversationCoreTests(unittest.IsolatedAsyncioTestCase):
         with db.connect() as con:
             con.execute('INSERT INTO conversations(farmer_phone,payload) VALUES (?,?)', ('owner', json.dumps(data)))
         return data
+
+    async def test_conversational_location_uses_model_without_raw_sentence_override(self):
+        self.seed_machine(location=None)
+        with db.connect() as con:
+            con.execute("UPDATE conversations SET last_question_field='location' WHERE farmer_phone='owner'")
+        self.nlu.side_effect=None
+        self.nlu.return_value=Understanding(task='machine',facts=Facts(location='دكالة'))
+        text='خويا كاينة فواحد الأرض فدكالة'
+        reply=await self.turn(text)
+        self.nlu.assert_awaited_once()
+        self.assertEqual(service.conversation('owner')[0]['location'],'دكالة')
+        self.assertIn('📍 المكان: دكالة',reply)
+        self.assertNotIn(text,reply)
+
+    async def test_conversational_location_without_place_does_not_become_place(self):
+        self.seed_machine(location=None)
+        with db.connect() as con:
+            con.execute("UPDATE conversations SET last_question_field='location' WHERE farmer_phone='owner'")
+        self.nlu.side_effect=None
+        self.nlu.return_value=Understanding(task='machine',facts=Facts())
+        reply=await self.turn('خويا كاينة فواحد الأرض')
+        self.nlu.assert_awaited_once()
+        self.assertIsNone(service.conversation('owner')[0].get('location'))
+        self.assertIn('فين',reply)
 
     async def test_transcript_corrections_and_past_date(self):
         self.seed_machine(location='جوج', when='2026-11-03')

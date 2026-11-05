@@ -1,5 +1,6 @@
 """Intent-first controller. Models interpret; Python validates and commits actions."""
 import hashlib
+from . import config
 import json
 import re
 import time
@@ -9,8 +10,10 @@ from .ai import AIError
 from .db import connect
 from .diagnostics import event
 from .understanding import Facts, Understanding, understand
-from .locations import clean_location
+from .locations import clean_location, is_literal_location
 from . import guided
+from .reply_writer import write_reply
+from .integrations.errors import IntegrationError
 from .contacts import valid_contact, extract_contacts, phone_number, CONTACT_QUESTION
 from . import catalog
 
@@ -275,6 +278,8 @@ def local_decision(text, active, data, pending, context=None, phone=None):
                     return Understanding(task=active, facts=Facts(**fields))
             limit = 400 if pending == 'details' else 100
             if 0 < len(text.strip()) <= limit and (pending in ('work', 'details', 'contact') or len(text.split()) <= 4):
+                if pending == 'location' and not is_literal_location(text):
+                    return None
                 answer = clean_location(text) if pending == 'location' else text.strip()
                 return Understanding(task=active, facts=Facts(**{pending: answer}))
         return None
@@ -312,7 +317,7 @@ def local_decision(text, active, data, pending, context=None, phone=None):
             return Understanding(task=task, action='continue', facts=Facts(**facts))
         return Understanding(task=task, action='correct' if 'location' in facts else 'continue', facts=Facts(**facts))
     # Field replies use deterministic parsing only when they are short and literal.
-    if active.startswith('search_') and pending == 'search_location' and len(text.split()) <= 4:
+    if active.startswith('search_') and pending == 'search_location' and is_literal_location(text):
         return Understanding(task=active, facts=Facts(location=clean_location(text)))
     return None
 
@@ -352,10 +357,11 @@ def arm_confirmation(con, phone, reply):
 
 
 def record_reply(con, phone, msg_id, text, reply):
+    previous_user = con.execute("SELECT text FROM conversation_turns WHERE farmer_phone=? AND role='user' AND message_id!=? ORDER BY id DESC LIMIT 1",(phone,msg_id)).fetchone()
     con.execute("INSERT OR REPLACE INTO conversation_turns(farmer_phone,message_id,role,text) VALUES (?,?,'user',?)", (phone, msg_id, text))
     con.execute("INSERT OR REPLACE INTO conversation_turns(farmer_phone,message_id,role,text) VALUES (?,?,'assistant',?)", (phone, msg_id, reply))
     row = con.execute('SELECT last_reply,repeats FROM dialogue_sessions WHERE phone=?', (phone,)).fetchone()
-    repeats = row['repeats'] + 1 if row and row['last_reply'] == reply else 0
+    repeats = row['repeats'] + 1 if row and row['last_reply'] == reply and previous_user and employment.normalize(previous_user['text']) == employment.normalize(text) else 0
     if repeats >= 2:
         reply = 'بان ليا ما تقدمناش فهاد النقطة. قول ليا شنو بغيتي تبدل، أو كتب بدا من جديد باش نحيدو المسودات ونبداو من الاول.'
         con.execute("UPDATE conversation_turns SET text=? WHERE message_id=? AND role='assistant'", (reply, msg_id))
@@ -372,6 +378,34 @@ async def respond(phone, msg_id, text, selection_id=None):
     started = time.monotonic()
     reply = await _respond(phone, msg_id, text, selection_id)
     with connect() as con:
+        audit=con.execute('SELECT route FROM dialogue_audit WHERE message_id=?',(msg_id,)).fetchone()
+        payload=guided.outgoing(con,msg_id)
+        live_context=context_data(con,phone)
+        active,data,pending,history,_=load(phone)
+    protected = (reply.startswith(('واش هاد المعلومات صحيحة؟','عامل\n','عرض عمل\n'))
+                 or '📍' in reply or '@' in reply or len(reply)>900
+                 or (payload and payload['type']=='list')
+                 or pending=='confirm')
+    if (config.CONVERSATION_REPLY_STYLE=='model' and config.CONVERSATION_ROUTING!='rules_first'
+            and audit and audit['route'] in {'model','policy'} and not protected):
+        try:
+            natural = await write_reply(text,reply,{
+                'active_task':active,'pending_field':pending,'last_search':live_context.get('last_search'),
+                'draft':{k:v for k,v in data.items() if k in {'machine_type','operation','area_hectares','location','preferred_date','work'}},
+                'recent_turns':history[-6:],
+                'buttons':[button['reply']['title'] for button in payload['action']['buttons']] if payload and payload['type']=='button' else [],
+            })
+        except (IntegrationError,TimeoutError,ValueError,TypeError,KeyError):
+            event('dialogue.reply_writing_fallback',outcome='template')
+        else:
+            with connect() as con:
+                con.execute("UPDATE conversation_turns SET text=? WHERE message_id=? AND role='assistant'",(natural,msg_id))
+                con.execute('UPDATE dialogue_sessions SET last_reply=? WHERE phone=?',(natural,phone))
+                if payload:
+                    payload['body']['text']=natural
+                    con.execute('UPDATE dialogue_outgoing SET payload=? WHERE message_id=?',(json.dumps(payload,ensure_ascii=False),msg_id))
+            reply=natural
+    with connect() as con:
         session = con.execute('SELECT task FROM dialogue_sessions WHERE phone=?', (phone,)).fetchone()
         con.execute('''INSERT INTO dialogue_audit(message_id,task,route,duration_ms) VALUES (?,?,?,?)
             ON CONFLICT(message_id) DO UPDATE SET task=excluded.task,duration_ms=excluded.duration_ms''',
@@ -381,6 +415,7 @@ async def respond(phone, msg_id, text, selection_id=None):
 
 async def _respond(phone, msg_id, text, selection_id=None):
     used_model = False
+    model_failed = False
     choice = None
     active, data, pending, history, session = load(phone)
     with connect() as con:
@@ -390,6 +425,21 @@ async def _respond(phone, msg_id, text, selection_id=None):
             if age.total_seconds() > 6 * 60 * 60:
                 context = {'history_after_id': context.get('history_after_id', 0)}
                 put_context(con, phone, context)
+    # Document policy comes from the application, never invented by a model.
+    policy_question = re.search(r'وثيق|وثائق|وراق|مستند|document|papier|justificatif', text, re.IGNORECASE)
+    policy_question = policy_question and re.search(r'واش|شنو|اش\s|خصني|خاصني|شنهي|هل|كيف|quels?|faut|besoin|need|which|what|\?', text, re.IGNORECASE)
+    if policy_question:
+        with connect() as con:
+            requested = con.execute("SELECT id,review_note FROM requests WHERE ltrim(farmer_phone,'+')=? AND status='pending_review' AND review_state='needs_information' ORDER BY id DESC LIMIT 5", (phone.lstrip('+'),)).fetchall()
+            from .document_checklist import message as checklist_message
+            reply = 'نقدروا نستقبلوا الطلب والوثائق هنا فالواتساب أو فالموقع. الإدارة كتراجع الطلب، وأي طلب لوثائق إضافية غادي يوصلك هنا فالواتساب. باش تقلب على عمال فقط، ما مفروضاش عليك وثيقة.\n'+checklist_message()
+            if requested:
+                reply += '\n' + '\n'.join(f"الطلب #{row['id']}: {row['review_note']}" for row in requested)
+                reply += '\nزيد رقم الطلب فالوصف ملي تصيفط الوثيقة، مثلا #' + str(requested[0]['id']) + '.'
+            session_task(con, phone, active)
+            event('dialogue.route', previous_state=active,state=active,outcome='policy')
+            con.execute("INSERT OR REPLACE INTO dialogue_audit(message_id,task,route) VALUES (?,?,'policy')",(msg_id,active))
+            return record_reply(con, phone, msg_id, text, reply)
     if not text.strip() or len(text) > 1200:
         decision = Understanding(action='unknown')
     else:
@@ -451,7 +501,13 @@ async def _respond(phone, msg_id, text, selection_id=None):
             with connect() as con:
                 session_task(con, phone, active)
                 return record_reply(con, phone, msg_id, text, reply)
-        if decision is None:
+        # Explicit consent and navigation remain application controls. Every other
+        # free-text turn uses semantic understanding before deterministic fallback.
+        control = is_approval(text) or value in ({employment.normalize(v) for v in CANCEL | EDIT} | {
+            'menu', 'options', 'help', 'مساعدة', 'اختيارات', 'الاختيارات', 'القائمة', 'لائحة', '0',
+            'reset', 'restart', '/start', 'بدا من جديد', 'نبداو من جديد', 'بدا من الاول', 'نسا كولشي',
+        })
+        if decision is None and (config.CONVERSATION_ROUTING == 'rules_first' or control):
             decision = local_decision(text, active, data, pending, context, phone=phone)
         if decision is None:
             used_model = True
@@ -467,23 +523,40 @@ async def _respond(phone, msg_id, text, selection_id=None):
                     'catalog_options': [{key: item[key] for key in ('kind','code','label')} for item in entries][:40],
                     'recent_turns': [{**turn, 'text': turn['text'][:400]} for turn in history]})
             except AIError as exc:
-                event('dialogue.fallback', outcome='error', error_code=exc.code)
-                with connect() as con:
-                    con.execute('INSERT OR REPLACE INTO dialogue_audit(message_id,task,route,error_code) VALUES (?,?,?,?)', (msg_id,active,'model',exc.code))
-                    session_task(con, phone, active)
-                    context.pop('offer', None)
-                    if active == 'none':
-                        context['show_menu'] = True
-                        put_context(con, phone, context)
-                        reply = ('خدمة فهم الرسائل الحرة عليها الضغط دابا. الاختيارات والبحث بالأسماء مازال خدامين.'
-                                 if exc.code == 'conversation_rate_limited' else 'تعطلت خدمة فهم الرسالة دابا. تقدر تختار من اللائحة ونكملو بلا انتظار الموديل.')
-                    else:
-                        put_context(con, phone, context)
-                        reply = 'تعطلت خدمة فهم الرسالة دابا، والمسودة ديالك باقية.\n' + next_question(active, pending, {})
-                    return record_reply(con, phone, msg_id, text, reply)
+                model_failed = True
+                decision = local_decision(text, active, data, pending, context, phone=phone)
+                event('dialogue.fallback', outcome='rules' if decision is not None else 'error', error_code=exc.code)
+                if decision is not None:
+                    used_model = False
+                    with connect() as con:
+                        con.execute('INSERT OR REPLACE INTO dialogue_audit(message_id,task,route,error_code) VALUES (?,?,?,?)', (msg_id,decision.task,'fallback',exc.code))
+                else:
+                    with connect() as con:
+                        con.execute('INSERT OR REPLACE INTO dialogue_audit(message_id,task,route,error_code) VALUES (?,?,?,?)', (msg_id,active,'model',exc.code))
+                        session_task(con, phone, active)
+                        context.pop('offer', None)
+                        if active == 'none':
+                            context['show_menu'] = True
+                            put_context(con, phone, context)
+                            reply = ('خدمة فهم الرسائل الحرة عليها الضغط دابا. الاختيارات والبحث بالأسماء مازال خدامين.'
+                                     if exc.code == 'conversation_rate_limited' else 'تعطلت خدمة فهم الرسالة دابا. تقدر تختار من اللائحة ونكملو بلا انتظار الموديل.')
+                        else:
+                            put_context(con, phone, context)
+                            reply = 'تعطلت خدمة فهم الرسالة دابا، والمسودة ديالك باقية.\n' + next_question(active, pending, context, data)
+                        return record_reply(con, phone, msg_id, text, reply)
+    last_search=context.get('last_search',{})
+    followup=clean_location(re.sub(r'^(?:أو|او|ولا)\s+', '', text.strip().strip(' ؟?،,.!')).strip())
+    if active in {'none','search_workers','search_jobs'} and last_search.get('kind') in {'worker','job'} and is_literal_location(followup) and len(followup.split())<=4:
+        with connect() as con:
+            places=catalog.matches(followup,'location',catalog.terms(con))
+        if places and decision.action not in {'confirm','cancel','reset','menu'}:
+            decision.task='search_workers' if last_search['kind']=='worker' else 'search_jobs'
+            decision.action='continue'
+            decision.facts.location=places[0]['label']
+            if not decision.facts.work:decision.facts.work=last_search.get('work')
     task = decision.task
     event('dialogue.route', previous_state=active, state=task,
-          outcome='model' if used_model else 'fast',
+          outcome='model' if used_model else 'fallback' if model_failed else 'fast',
           field_presence=sorted(decision.facts.model_dump(exclude_none=True)))
     if active == 'none' and task == 'machine' and decision.action == 'continue':
         decision.action = 'new'
@@ -491,7 +564,7 @@ async def _respond(phone, msg_id, text, selection_id=None):
     if decision.action == 'confirm' and not is_approval(text) and not (choice and choice['op'] == 'confirm'):
         decision.action = 'unknown'
     with connect() as con:
-        con.execute('INSERT OR REPLACE INTO dialogue_audit(message_id,task,route) VALUES (?,?,?)', (msg_id,task,'model' if used_model else 'fast'))
+        con.execute('INSERT INTO dialogue_audit(message_id,task,route) VALUES (?,?,?) ON CONFLICT(message_id) DO UPDATE SET task=excluded.task,route=excluded.route', (msg_id,task,'model' if used_model else 'fallback' if model_failed else 'fast'))
         context = context_data(con, phone)
         if decision.action == 'menu':
             context['show_menu'] = True
@@ -605,12 +678,15 @@ def machine_turn(con, phone, text, decision):
         payload = json.dumps(data, ensure_ascii=False)
         if legacy:
             con.execute("UPDATE requests SET payload=?,status='pending_review',updated_at=CURRENT_TIMESTAMP WHERE id=?", (payload, legacy['id']))
+            request_id=legacy['id']
         else:
-            con.execute("INSERT INTO requests(farmer_phone,payload,status) VALUES (?,?,'pending_review')", (phone, payload))
+            cursor=con.execute("INSERT INTO requests(farmer_phone,payload,status) VALUES (?,?,'pending_review')", (phone, payload))
+            request_id=cursor.lastrowid
         con.execute('DELETE FROM conversations WHERE farmer_phone=?', (phone,))
         con.execute('DELETE FROM dialogue_confirmations WHERE phone=? AND task=?', (phone, 'machine'))
         session_task(con, phone, 'none')
-        return 'تسجل الطلب ديالك وغادي تراجعو التعاونية. هادي ماشي حجز مؤكد.'
+        from .document_checklist import message as checklist_message
+        return 'تسجل الطلب ديالك وغادي تراجعو التعاونية. هادي ماشي حجز مؤكد.\n'+checklist_message(request_id)
     # A bare "no" asks what needs changing, without repeating the old summary.
     editing = decision.action == 'correct' and not decision.facts.model_dump(exclude_none=True) and not local
     pending = 'correction' if editing else (missing[0] if missing else None)
@@ -650,6 +726,7 @@ def employment_turn(con, phone, text, decision, active):
             context = context_data(con, phone)
             context['last_search'] = {'kind': kind, 'location': data.get('location'), 'work': data.get('work')}
             context['offer'] = 'post_worker' if kind == 'job' else 'post_job'
+            context['show_offer'] = True
             put_context(con, phone, context)
             con.execute('DELETE FROM employment_drafts WHERE phone=?', (phone,))
             con.execute('DELETE FROM dialogue_drafts WHERE phone=? AND task=?', (phone, task))
@@ -664,6 +741,8 @@ def employment_turn(con, phone, text, decision, active):
             VALUES (?,?,?,?,?,?,?) ON CONFLICT(owner_phone,kind) DO UPDATE SET name=excluded.name,
             location=excluded.location,work=excluded.work,details=excluded.details,contact=excluded.contact,status='active' ''',
             (phone, kind, *(data[f] for f in employment.FIELDS)))
+        from .request_workflow import dispatch
+        dispatch(con)
         con.execute('DELETE FROM employment_drafts WHERE phone=?', (phone,))
         con.execute('DELETE FROM dialogue_drafts WHERE phone=? AND task=?', (phone, task))
         con.execute('DELETE FROM dialogue_confirmations WHERE phone=? AND task=?', (phone, task))
@@ -704,9 +783,14 @@ def profile_question(task, pending):
     return employment.QUESTIONS.get(pending, 'شنو المعلومة اللي بغيتي تصحح؟')
 
 
-def next_question(active, pending, context):
+def next_question(active, pending, context, data=None):
     if active.startswith('post_'):
         return f"باقين كنوجدو {TASK_NAMES[active]}. " + profile_question(active, pending) + '\nإلا بغيتي نبداو من الاول، كتب بدا من جديد.'
+    if active == 'machine' and data and pending not in QUESTIONS:
+        missing = missing_machine(data)
+        if not missing:
+            return 'باقين فطلب الماكينة.\n' + machine_summary(data)
+        pending = missing[0]
     if active == 'machine' and pending in QUESTIONS:
         return 'باقين فطلب الماكينة. ' + QUESTIONS[pending] + '\nتقدر تقول بدا من جديد.'
     if active.startswith('search_'):

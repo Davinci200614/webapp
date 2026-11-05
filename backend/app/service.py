@@ -135,7 +135,7 @@ async def handle_message(msg):
 
 async def _handle_message(msg, phone, msg_id):
     kind = msg.get('type', 'unknown')
-    media_id = msg.get('audio', {}).get('id') if kind == 'audio' else None
+    media_id = msg.get(kind, {}).get('id') if kind in {'audio','document','image'} else None
     text = msg.get('text', {}).get('body', '') if kind == 'text' else ''
     selection_id = None
     if kind == 'interactive' and config.CONVERSATION_CORE == 'v2':
@@ -151,6 +151,8 @@ async def _handle_message(msg, phone, msg_id):
             return
         con.execute('INSERT OR IGNORE INTO messages(id,farmer_phone,kind,text,media_id) VALUES (?,?,?,?,?)', (msg_id, phone, kind, text, media_id))
         cached = con.execute("SELECT text FROM conversation_turns WHERE message_id=? AND role='assistant'", (msg_id,)).fetchone()
+    from .notifications import wake
+    wake(phone)
     event('message.deduplication', outcome='accepted', kind=kind)
     try:
         # A retry after delivery failure only resends the persisted reply; it must
@@ -162,6 +164,13 @@ async def _handle_message(msg, phone, msg_id):
                 event('dialogue.obsolete_reply', outcome='skipped')
                 return
             await deliver(phone, msg_id, cached['text'])
+            return
+        if kind in {'document', 'image'}:
+            from .whatsapp_documents import document_reply
+            reply = await document_reply(msg, phone, download_media)
+            with connect() as con:
+                save_reply(con, phone, msg_id, reply)
+            await deliver(phone, msg_id, reply)
             return
         if kind == 'audio':
             if not media_id:
@@ -182,6 +191,13 @@ async def _handle_message(msg, phone, msg_id):
             return
         with connect() as con:
             con.execute('UPDATE messages SET text=? WHERE id=?', (text, msg_id))
+        from .whatsapp_documents import information_reply, status_reply
+        supplement_reply = status_reply(phone, text) or information_reply(phone, text)
+        if supplement_reply:
+            with connect() as con:
+                save_reply(con, phone, msg_id, supplement_reply)
+            await deliver(phone, msg_id, supplement_reply)
+            return
         if config.CONVERSATION_CORE == 'v2':
             reply = await controller.respond(phone, msg_id, text, selection_id=selection_id)
             await deliver(phone, msg_id, reply)

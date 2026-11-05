@@ -101,7 +101,7 @@ class Phase5ApiTests(unittest.TestCase):
         )
 
     def test_status_lifecycle_draft_and_invalid_transitions(self):
-        headers = {"Authorization": "Bearer operator-secret"}
+        headers = {"Authorization": "Bearer admin-secret"}
         draft = self.client.patch("/api/requests/2/status", json={"status": "approved"}, headers=headers)
         self.assertEqual(draft.status_code, 409)
         approved = self.client.patch("/api/requests/1/status", json={"status": "approved"}, headers=headers)
@@ -120,7 +120,7 @@ class Phase5ApiTests(unittest.TestCase):
         verified = self.client.patch(
             "/api/requests/1/urgency-verification",
             json={"reviewer": "operator"},
-            headers={"Authorization": "Bearer operator-secret"},
+            headers={"Authorization": "Bearer admin-secret"},
         )
         self.assertEqual(verified.status_code, 200)
         with connect(self.path) as db:

@@ -32,6 +32,9 @@ LLM_FALLBACK_PROVIDER = os.getenv("LLM_FALLBACK_PROVIDER", "").strip().lower()
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434").rstrip("/")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "")
 CONVERSATION_CORE = os.getenv("CONVERSATION_CORE", "v2").strip().lower()
+CONVERSATION_REPLY_STYLE = os.getenv("CONVERSATION_REPLY_STYLE", "model").strip().lower()
+CONVERSATION_REPLY_TIMEOUT_SECONDS = float(os.getenv("CONVERSATION_REPLY_TIMEOUT_SECONDS", "4"))
+CONVERSATION_ROUTING = os.getenv("CONVERSATION_ROUTING", "model_first").strip().lower()
 CONVERSATION_PROVIDER = os.getenv("CONVERSATION_PROVIDER", "auto").strip().lower()
 CONVERSATION_ENABLED = os.getenv("CONVERSATION_ENABLED", "true").strip().lower() in {
     "1",
@@ -73,3 +76,9 @@ WHATSAPP_CONTACT_NUMBER = os.getenv("WHATSAPP_CONTACT_NUMBER", "")
 def resolve_db_path(value):
     path = Path(value).expanduser()
     return str((path if path.is_absolute() else Path(__file__).resolve().parents[1] / path).resolve())
+
+DOCUMENT_CHECKLIST = os.getenv("DOCUMENT_CHECKLIST", "ملخص طلب الخدمة (الاسم، المكان، نوع الخدمة والتاريخ);تصريح بطبيعة الأشغال ومكانها;وثيقة تمثيل التعاونية إذا كان الطلب باسمها، عند الاقتضاء;وثيقة استغلال الأرض لطلب المعدات، عند الاقتضاء")
+WHATSAPP_DOCUMENT_TEMPLATE = os.getenv("WHATSAPP_DOCUMENT_TEMPLATE", "").strip()
+WHATSAPP_TEMPLATE_LANGUAGE = os.getenv("WHATSAPP_TEMPLATE_LANGUAGE", "ar").strip()
+
+PUBLIC_DEMO_MODE = os.getenv("PUBLIC_DEMO_MODE", "false").strip().lower() in {"1","true","yes","on"}

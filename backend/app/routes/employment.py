@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from ..auth import Role, current_role
 from .. import config
 from ..db import connect
+from ..request_workflow import dispatch
 from ..employment import normalize
 
 router = APIRouter(prefix='/api/employment', tags=['employment'])
@@ -27,6 +28,8 @@ def moderate(listing_id: int, payload: ListingStatus, _: Role = Depends(current_
     if not config.MUTATIONS_ENABLED:
         raise HTTPException(503,'Mutations are disabled')
     with connect() as db:
+        db.execute('BEGIN IMMEDIATE')
         result=db.execute('UPDATE employment_listings SET status=? WHERE id=?',(payload.status,listing_id))
         if not result.rowcount: raise HTTPException(404,'Listing not found')
+        dispatch(db)
     return {'id':listing_id,'status':payload.status}

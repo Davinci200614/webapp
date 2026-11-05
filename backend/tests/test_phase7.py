@@ -52,7 +52,7 @@ class Phase7Tests(unittest.TestCase):
     def test_restore_schema_includes_auth_tables_and_foreign_keys(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "target.db"
-            self.assertEqual(init_db(path), 4)
+            self.assertEqual(init_db(path), 6)
             self.assertTrue({"operators", "operator_sessions"} <= schema_tables(path))
             with connect(path) as db:
                 self.assertEqual(db.execute("PRAGMA foreign_keys").fetchone()[0], 1)

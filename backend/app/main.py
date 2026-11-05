@@ -25,6 +25,8 @@ async def lifespan(app):
     init_db()
     provision_bootstrap()
     with inbox.connect() as db:
+        db.execute("UPDATE whatsapp_notifications SET state='pending' WHERE state='sending'")
+    with inbox.connect() as db:
         db.execute("UPDATE webhook_inbox SET state='pending' WHERE state='running'")
     event('application.ready', outcome='ok', state='webhook_ready')
     worker = asyncio.create_task(inbox.run())
@@ -40,9 +42,11 @@ app = FastAPI(title=config.APP_NAME, lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=config.CORS_ORIGINS,
-    allow_methods=["GET", "POST", "PATCH"],
+    allow_methods=["GET", "POST", "PATCH", "DELETE"],
     allow_headers=["*"],
 )
+from .routes.applications import router as applications_router
+app.include_router(applications_router)
 app.include_router(requests_router)
 app.include_router(machines_router)
 app.include_router(auth_router)
@@ -53,7 +57,7 @@ app.include_router(inspection_router)
 
 @app.get('/api/public/config')
 def public_config():
-    return {'whatsapp_number': config.WHATSAPP_CONTACT_NUMBER}
+    return {'whatsapp_number': config.WHATSAPP_CONTACT_NUMBER, 'public_demo_mode': config.PUBLIC_DEMO_MODE}
 
 
 
@@ -127,7 +131,7 @@ if (_frontend / 'assets').is_dir():
 def frontend_page(page: str = ''):
     if page not in {'', 'catalogue', 'catalogue.html', 'cooperative', 'cooperative.html',
                     'operations', 'equipe-machinati.html', 'requests', 'machines',
-                    'employment', 'inspect', 'privacy', 'terms', 'data-deletion'}:
+                    'employment', 'apply', 'inspect', 'privacy', 'terms', 'data-deletion'}:
         raise HTTPException(404, 'Page not found')
     if not (_frontend / 'index.html').is_file():
         raise HTTPException(404, 'Build the frontend with npm run build first')

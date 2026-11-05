@@ -69,6 +69,10 @@ class WhatsAppClient:
     async def send_text(self, to: str, text: str) -> dict[str, Any]:
         return await self._send(to, {"type": "text", "text": {"body": text}})
 
+    async def send_template(self, to: str, name: str, language: str, parameters: list[str]):
+        return await self._send(to, {'type':'template','template':{'name':name,'language':{'code':language},
+            'components':[{'type':'body','parameters':[{'type':'text','text':value} for value in parameters]}]}})
+
     async def send_interactive(
         self, to: str, interactive: dict[str, Any]
     ) -> dict[str, Any]:

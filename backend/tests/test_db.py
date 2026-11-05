@@ -18,7 +18,7 @@ class DatabaseMigrationTests(unittest.TestCase):
 
     def test_empty_database_gets_both_domain_schemas_and_constraints(self):
         database = self.root / "webapp.db"
-        self.assertEqual(init_db(database), 4)
+        self.assertEqual(init_db(database), 6)
         tables = schema_tables(database)
         self.assertTrue(
             {

@@ -1,0 +1,63 @@
+{
+  "source_sha256": "95223201fa2e73408150713c0a556a01ae439831cb65aabcbde112724b08d7d7",
+  "inserted": {
+    "farmers": 16,
+    "machines": 7,
+    "requests": 2,
+    "employment_listings": 14,
+    "catalog_terms": 0,
+    "bookings": 0
+  },
+  "already_present": {
+    "farmers": 0,
+    "machines": 0,
+    "requests": 0,
+    "employment_listings": 0,
+    "catalog_terms": 18,
+    "bookings": 0
+  },
+  "id_maps": {
+    "farmers": {},
+    "machines": {
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "5": 5,
+      "6": 6,
+      "7": 7
+    },
+    "requests": {
+      "1": 1,
+      "2": 2
+    },
+    "employment_listings": {
+      "1": 2,
+      "2": 3,
+      "3": 4,
+      "4": 5,
+      "5": 6,
+      "6": 7,
+      "7": 8,
+      "8": 9,
+      "9": 10,
+      "10": 11,
+      "11": 12,
+      "12": 13,
+      "13": 14,
+      "14": 15
+    },
+    "catalog_terms": {},
+    "bookings": {}
+  },
+  "preserved_accounts": true,
+  "backup": "/home/davinci/integrated-project/webapp/backend/backups/webapp-before-merge-20261105T123241190887Z.db",
+  "totals": {
+    "farmers": 17,
+    "machines": 7,
+    "requests": 2,
+    "employment_listings": 15,
+    "catalog_terms": 18,
+    "bookings": 0
+  }
+}

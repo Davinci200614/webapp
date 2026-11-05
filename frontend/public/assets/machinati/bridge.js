@@ -20,7 +20,6 @@
   window.machinatiWhatsApp = '';
   window.machinatiReady = (async () => {
     if (privatePage) {
-      if (!sessionStorage.getItem('webapp_api_token')) { expire(); return false; }
       const response = await window.fetch('/api/auth/me');
       if (!response.ok) { document.body.textContent = 'Connexion impossible. Rechargez la page pour réessayer.'; return false; }
       document.documentElement.classList.remove('awaiting-auth');

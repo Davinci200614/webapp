@@ -56,6 +56,8 @@ async def run():
     while True:
         try:
             await drain()
+            from . import notifications
+            await notifications.drain()
         except Exception as exc:
             event('inbox.worker', outcome='error', exception_type=type(exc).__name__)
         await asyncio.sleep(1)

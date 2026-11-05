@@ -2,6 +2,14 @@
 # One backend process serves the WhatsApp bot, APIs and compiled React pages.
 set -Eeuo pipefail
 
+# Treat the terminal's suspend key as shutdown: managed servers run in separate
+# sessions and would otherwise keep serving after the launcher was suspended.
+suspend_shutdown() {
+  printf '\nCtrl+Z received: stopping the app. Use Ctrl+C for normal shutdown.\n' >&2
+  exit 148
+}
+trap suspend_shutdown TSTP
+
 APP_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 MODE=compiled
 CHECK_ONLY=false
@@ -143,6 +151,9 @@ import errno,socket,sys
 for port in map(int,sys.argv[1:]):
     try:
         with socket.socket() as probe:
+            # Uvicorn reuses its address too. Recently closed connections must
+            # not be mistaken for a still-running listener during restart.
+            probe.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
             probe.bind(('127.0.0.1',port))
     except OSError as exc:
         if exc.errno == errno.EADDRINUSE:
@@ -165,7 +176,7 @@ fi
 CHILDREN=()
 NGROK_LOG=""
 cleanup() {
-  trap - EXIT INT TERM
+  trap - EXIT INT TERM TSTP
   for pid in "${CHILDREN[@]}"; do
     kill -TERM -- "-$pid" 2>/dev/null || true
     kill -CONT -- "-$pid" 2>/dev/null || true
@@ -232,7 +243,7 @@ if [[ "$TUNNEL" == true ]]; then
   printf '\nWhatsApp callback URL: %s/webhook/whatsapp\n' "$CALLBACK_BASE"
   printf 'Use this URL in Meta if it differs from your current callback.\n'
 fi
-printf 'Press Ctrl+C to stop the app and any tunnel started by this launcher.\n'
+printf 'Press Ctrl+C to stop the app and any tunnel started by this launcher. Ctrl+Z also shuts it down.\n'
 set +e
 wait -n "${CHILDREN[@]}"
 STATUS=$?

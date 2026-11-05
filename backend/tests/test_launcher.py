@@ -107,6 +107,26 @@ time.sleep(60)
         finally:
             if process.poll() is None:process.terminate();process.wait(timeout=8)
 
+    def test_ctrl_z_shuts_down_servers_instead_of_suspending_launcher(self):
+        import signal
+        if not shutil.which('setsid'):self.skipTest('setsid not available')
+        process=subprocess.Popen(['bash',str(self.root/'start.sh'),'--dev'],env=self.env,
+                                 stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+        try:
+            deadline=time.monotonic()+4
+            while time.monotonic()<deadline:
+                if all((self.root/(name+'-pids')).exists() for name in ['backend','frontend']):break
+                time.sleep(.03)
+            else:self.fail('Servers did not start')
+            pids=[int(pid) for name in ['backend','frontend'] for pid in (self.root/(name+'-pids')).read_text().split()]
+            os.kill(process.pid,signal.SIGTSTP)
+            self.assertEqual(process.wait(timeout=8),148)
+            deadline=time.monotonic()+2
+            while time.monotonic()<deadline and not all(self.stopped(pid) for pid in pids):time.sleep(.03)
+            self.assertTrue(all(self.stopped(pid) for pid in pids),'Ctrl+Z left a server running')
+        finally:
+            if process.poll() is None:process.terminate();process.wait(timeout=8)
+
     def test_dev_frontend_failure_stops_backend(self):
         if not shutil.which('setsid'):self.skipTest('setsid not available')
         result=self.invoke('--dev',FAIL_FRONTEND='1')
@@ -118,3 +138,53 @@ time.sleep(60)
         self.assertEqual(result.returncode,1,result.stderr)
         self.assertIn(str(self.root),(self.root/'restart-request').read_text())
         self.assertTrue((self.root/'backend-args').exists())
+
+
+class PortProbeTests(unittest.TestCase):
+    def probe(self,port):
+        import sys
+        launcher=(Path(__file__).resolve().parents[2]/'start.sh').read_text()
+        script=launcher.split("<<'PY'\n",1)[1].split('\nPY\n',1)[0]
+        return subprocess.run([sys.executable,'-',str(port)],input=script,text=True,capture_output=True,timeout=3)
+
+    def listener(self):
+        import socket
+        try:sock=socket.socket()
+        except PermissionError:self.skipTest('Local sockets denied by this environment')
+        self.addCleanup(sock.close)
+        sock.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+        try:sock.bind(('127.0.0.1',0))
+        except PermissionError:self.skipTest('Local sockets denied by this environment')
+        sock.listen()
+        return sock
+
+    def test_probe_rejects_an_actual_listener(self):
+        listener=self.listener()
+        result=self.probe(listener.getsockname()[1])
+        self.assertEqual(result.returncode,1)
+        self.assertIn('already occupied',result.stderr)
+
+    def test_probe_accepts_recently_closed_server_connections(self):
+        import socket
+        listener=self.listener();port=listener.getsockname()[1]
+        client=socket.create_connection(('127.0.0.1',port),timeout=2)
+        self.addCleanup(client.close)
+        accepted,_=listener.accept();self.addCleanup(accepted.close)
+        accepted.shutdown(socket.SHUT_WR)
+        self.assertEqual(client.recv(1),b'')
+        client.close();accepted.close();listener.close()
+        result=self.probe(port)
+        self.assertEqual(result.returncode,0,result.stderr)
+
+    def test_probe_uses_address_reuse_before_binding(self):
+        import socket
+        import sys
+        from unittest.mock import MagicMock,patch,call
+        launcher=(Path(__file__).resolve().parents[2]/'start.sh').read_text()
+        script=launcher.split("<<'PY'\n",1)[1].split('\nPY\n',1)[0]
+        probe=MagicMock()
+        probe.__enter__.return_value=probe
+        with patch.object(socket,'socket',return_value=probe),patch.object(sys,'argv',['probe','8000']):
+            exec(compile(script,'launcher-port-probe','exec'),{})
+        calls=probe.mock_calls
+        self.assertLess(calls.index(call.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)),calls.index(call.bind(('127.0.0.1',8000))))

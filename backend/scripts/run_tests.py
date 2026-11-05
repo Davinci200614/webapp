@@ -10,6 +10,10 @@ else:
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 if __name__ == '__main__':
+    # Auth regression fixtures exercise secure mode even during a local public demo.
+    # Individual demo-mode tests explicitly enable the bypass.
+    from app import config
+    config.PUBLIC_DEMO_MODE = False
     suite=unittest.defaultTestLoader.discover(str(Path(__file__).resolve().parents[1]/'tests'))
     result=unittest.TextTestRunner(verbosity=2).run(suite)
     raise SystemExit(not result.wasSuccessful())

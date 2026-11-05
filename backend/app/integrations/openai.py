@@ -46,7 +46,7 @@ class OpenAIClient:
                 if self._client is not None:
                     response = await self._client.post(url, **kwargs)
                 else:
-                    async with httpx.AsyncClient(timeout=config.OPENAI_TIMEOUT_SECONDS, trust_env=False) as client:
+                    async with httpx.AsyncClient(timeout=httpx.Timeout(config.OPENAI_TIMEOUT_SECONDS, connect=min(5.0, config.OPENAI_TIMEOUT_SECONDS)), trust_env=False) as client:
                         response = await client.post(url, **kwargs)
             if response.status_code == 429:
                 raise IntegrationError('openai_rate_limited')
@@ -63,6 +63,10 @@ class OpenAIClient:
             return result
         except IntegrationError:
             raise
+        except httpx.ConnectTimeout:
+            raise IntegrationError('openai_connect_timeout') from None
+        except httpx.ConnectError:
+            raise IntegrationError('openai_connection_failed') from None
         except (TimeoutError, httpx.TimeoutException):
             raise IntegrationError('openai_timeout') from None
         except (httpx.HTTPError, ValueError, TypeError):

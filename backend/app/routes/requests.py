@@ -5,9 +5,10 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, Field, field_validator
 
 from .. import config
-from ..auth import Role, current_role
+from ..auth import Role, current_role, require_admin
 from ..db import connect
 from ..catalog import terms
+from ..request_workflow import details, dispatch
 from ..priority import machine_compatibility_for, priority_for
 
 router = APIRouter(prefix="/api")
@@ -15,6 +16,7 @@ router = APIRouter(prefix="/api")
 
 class StatusUpdate(BaseModel):
     status: Literal["pending_review", "approved", "rejected", "completed"]
+    note: str = Field(default="", max_length=2000)
 
 
 class UrgencyVerification(BaseModel):
@@ -54,11 +56,11 @@ def list_requests(
         rows = db.execute(
             f"SELECT * FROM requests{where} ORDER BY id DESC", values
         ).fetchall()
-        machines = [dict(row) for row in db.execute("SELECT * FROM machines")]
+        machines = [dict(row) for row in db.execute("SELECT * FROM machines WHERE id NOT IN (SELECT resource_id FROM request_allocations WHERE resource_kind='machine' AND active=1)")]
         entries = terms(db)
+        prepared = [details(db, row) for row in rows]
     items = []
-    for row in rows:
-        item = {**dict(row), "payload": json.loads(row["payload"])}
+    for item in prepared:
         fit, reason, matches = machine_compatibility_for(item["payload"], machines, entries)
         item["machine_fit"] = fit
         item["machine_fit_reason"] = reason
@@ -67,14 +69,14 @@ def list_requests(
             item["payload"], item["created_at"], machine_fit=fit
         )
         items.append(item)
-    return sorted(items, key=lambda item: (-item["priority_score"], -item["id"]))
+    return sorted(items, key=lambda item: (-item["priority_score"], item["created_at"], item["id"]))
 
 
 @router.patch("/requests/{request_id}/urgency-verification")
 def verify_urgency(
     request_id: int,
     payload: UrgencyVerification,
-    _: Role = Depends(current_role),
+    _: Role = Depends(require_admin),
 ):
     _mutations_enabled()
     with connect() as db:
@@ -107,7 +109,7 @@ def change_status(
     request_id: int,
     payload: StatusUpdate | None = None,
     status: str | None = Query(default=None),
-    _: Role = Depends(current_role),
+    _: Role = Depends(require_admin),
 ):
     _mutations_enabled()
     if payload is None:
@@ -121,7 +123,8 @@ def change_status(
         "completed": set(),
     }
     with connect() as db:
-        row = db.execute("SELECT status FROM requests WHERE id=?", (request_id,)).fetchone()
+        db.execute("BEGIN IMMEDIATE")
+        row = db.execute("SELECT status, review_state FROM requests WHERE id=?", (request_id,)).fetchone()
         if not row:
             raise HTTPException(status_code=404, detail="Request not found")
         current = row["status"]
@@ -132,8 +135,19 @@ def change_status(
                 status_code=409,
                 detail=f"Invalid status transition from {current} to {payload.status}",
             )
+        if payload.status == 'approved':
+            if row['review_state'] == 'needs_information':
+                raise HTTPException(409, 'Wait for the requested information before approval')
+            blocked = db.execute("SELECT 1 FROM request_documents WHERE request_id=? AND assessment!='accepted'", (request_id,)).fetchone()
+            if blocked:
+                raise HTTPException(409, 'Review and accept supporting documents before approval')
+        db.execute("INSERT INTO request_reviews(request_id,decision,note) VALUES (?,?,?)", (request_id,payload.status,payload.note))
         db.execute(
             "UPDATE requests SET status=?, updated_at=CURRENT_TIMESTAMP WHERE id=?",
             (payload.status, request_id),
         )
+        if payload.status in {'completed', 'rejected'}:
+            db.execute('UPDATE request_allocations SET active=0 WHERE request_id=?', (request_id,))
+            db.execute("UPDATE requests SET allocation_state='none' WHERE id=?", (request_id,))
+        dispatch(db)
     return {"id": request_id, "status": payload.status}

@@ -8,10 +8,10 @@ import {
   RefreshCw,
   CheckCircle2,
   ShieldCheck,
-  XCircle,
   Clock,
   Search,
 } from 'lucide-react';
+import {RequestReview} from './RequestReview';
 import { apiRequest, errorMessage } from '../shared/api';
 import type { MachineRow, RequestRow } from '../shared/types';
 
@@ -25,7 +25,7 @@ const statusText: Record<string, string> = {
   completed: 'Terminée',
 };
 
-export function RequestsDashboard() {
+export function RequestsDashboard({admin=false}:{admin?:boolean}) {
   const [items, setItems] = useState<RequestRow[]>([]);
   const [machines, setMachines] = useState<MachineRow[]>([]);
   const [errors, setErrors] = useState({ requests: '', machines: '' });
@@ -62,22 +62,6 @@ export function RequestsDashboard() {
     return () => window.clearInterval(timer);
   }, []);
 
-  async function update(id: number, status: string) {
-    setBusy(id);
-    try {
-      await apiRequest(`/api/requests/${id}/status`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status }),
-      });
-      await load();
-    } catch (error) {
-      setErrors(current => ({ ...current, requests: errorMessage(error) }));
-    } finally {
-      setBusy(null);
-    }
-  }
-
   async function verifyUrgency(id: number) {
     if (!reviewer.trim()) {
       setErrors(current => ({ ...current, requests: 'Saisissez le nom du vérificateur.' }));
@@ -99,7 +83,7 @@ export function RequestsDashboard() {
   }
 
   const visibleRequests = items.filter(request =>
-    (filter === 'all' || request.status === filter) &&
+    (filter === 'all' || request.status === filter || (filter === 'waiting' && request.allocation_state === 'waiting') || (filter === 'needs_information' && request.review_state === 'needs_information')) &&
     `${request.farmer_phone} ${JSON.stringify(request.payload)}`.toLowerCase().includes(search.toLowerCase()),
   );
   const pendingRequests = visibleRequests.filter(request => request.status === 'pending_review');
@@ -112,7 +96,7 @@ export function RequestsDashboard() {
   );
   const pending = items.filter(request => request.status === 'pending_review').length;
   const approved = items.filter(request => request.status === 'approved').length;
-  const availableMachines = machines.filter(machine => Boolean(machine.available) && !machine.reserved_for_own_use).length;
+  const availableMachines = machines.filter(machine => Boolean(machine.available) && !machine.reserved_for_own_use && !machine.is_allocated).length;
   const machineLocations = new Set(machines.map(machine => machine.location).filter(Boolean)).size;
 
   return (
@@ -142,7 +126,7 @@ export function RequestsDashboard() {
             <p className="eyebrow">ESPACE COOPÉRATIVE</p>
             <h1>{view === 'requests' ? 'Demandes de matériel' : 'Parc matériel'}</h1>
             <p className="muted">
-              {view === 'requests' ? 'Suivez les demandes reçues depuis WhatsApp' : 'Consultez le matériel enregistré dans la coopérative'}
+              {view === 'requests' ? 'Suivez les demandes web et WhatsApp' : 'Consultez le matériel enregistré dans la coopérative'}
             </p>
           </div>
           <button className="refresh" onClick={() => void load()}>
@@ -160,12 +144,12 @@ export function RequestsDashboard() {
 
             <section className="panel">
               <div className="paneltop">
-                <div><h2>Toutes les demandes</h2><p className="muted">Simulation de priorité · validation humaine requise · aucune réservation confirmée.</p></div>
+                <div><h2>Toutes les demandes</h2>{admin&&<button onClick={()=>{void apiRequest('/api/requests/dispatch',{method:'POST'}).then(load).catch(e=>setErrors(current=>({...current,requests:errorMessage(e)})))}}>Réaffecter la liste prioritaire</button>}<p className="muted">Validation des dossiers · affectation des ressources · liste prioritaire.</p></div>
                 <div className="controls">
                   <label className="reviewer-input">Vérifié par <input maxLength={80} placeholder="Nom du vérificateur" value={reviewer} onChange={event => setReviewer(event.target.value)} /></label>
                   <label className="search"><Search size={16} /><input placeholder="Rechercher..." value={search} onChange={event => setSearch(event.target.value)} /></label>
                   <select value={filter} onChange={event => setFilter(event.target.value)}>
-                    <option value="all">Tous les statuts</option>
+                    <option value="all">Tous les statuts</option><option value="waiting">Liste prioritaire</option><option value="needs_information">Complément demandé</option>
                     {Object.entries(statusText).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
                   </select>
                 </div>
@@ -219,7 +203,7 @@ export function RequestsDashboard() {
                               {request.payload.urgency_level === 'critical' ? 'Critique' : request.payload.urgency_level === 'urgent' ? 'Urgente' : request.payload.urgency_level === 'normal' ? 'Normale / flexible' : 'À préciser'}
                             </span>
                             {request.payload.urgency_reason && <small>{request.payload.urgency_reason}</small>}
-                            {request.payload.urgency_level && ['urgent', 'critical'].includes(request.payload.urgency_level) && request.status === 'pending_review' && (
+                            {request.payload.urgency_level && ['urgent', 'critical'].includes(request.payload.urgency_level) && admin && request.status === 'pending_review' && (
                               request.payload.verified_by ? (
                                 <small className="verified-by"><ShieldCheck size={13} /> Validée par {request.payload.verified_by}</small>
                               ) : (
@@ -233,18 +217,13 @@ export function RequestsDashboard() {
                         <td><strong className="priority-score">{request.priority_score}</strong><small>{request.priority_reason}</small></td>
                         <td><span className={`status ${request.status}`}>{statusText[request.status] || request.status}</span></td>
                         <td>
-                          {request.status === 'pending_review' ? (
-                            <div className="actions">
-                              <button disabled={busy === request.id} title="Approuver" onClick={() => void update(request.id, 'approved')}><CheckCircle2 size={17} /></button>
-                              <button disabled={busy === request.id} title="Refuser" onClick={() => void update(request.id, 'rejected')}><XCircle size={17} /></button>
-                            </div>
-                          ) : request.status === 'approved' ? <div className="actions"><button disabled={busy === request.id} title="Terminer" onClick={() => void update(request.id, 'completed')}><CheckCircle2 size={17}/></button><button disabled={busy === request.id} title="Refuser" onClick={() => void update(request.id, 'rejected')}><XCircle size={17}/></button></div> : <span className="muted">—</span>}
+                          <RequestReview request={request} admin={admin} onSaved={load}/>
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-                {!visibleRequests.length && <div className="empty"><Tractor size={36} /><h3>Aucune demande à afficher</h3><p>Les demandes WhatsApp apparaîtront ici après réception.</p></div>}
+                {!visibleRequests.length && <div className="empty"><Tractor size={36} /><h3>Aucune demande à afficher</h3><p>Les demandes web et WhatsApp apparaîtront ici après réception.</p></div>}
               </div>
             </section>
           </>
@@ -276,7 +255,7 @@ export function RequestsDashboard() {
                         <td>{machine.available_from || machine.available_to ? `${machine.available_from || '…'} → ${machine.available_to || '…'}` : 'À confirmer'}</td>
                         <td>{machine.compatibility_notes || '—'}</td>
                         <td>{machine.hourly_rate == null ? '—' : `${machine.hourly_rate} / h`}</td>
-                        <td><span className={`status ${machine.available && !machine.reserved_for_own_use ? 'approved' : 'rejected'}`}>{machine.available && !machine.reserved_for_own_use ? 'Disponible' : 'Indisponible'}</span></td>
+                        <td><span className={`status ${machine.available && !machine.reserved_for_own_use && !machine.is_allocated ? 'approved' : 'rejected'}`}>{machine.available && !machine.reserved_for_own_use && !machine.is_allocated ? 'Disponible' : 'Indisponible'}</span></td>
                       </tr>
                     ))}
                   </tbody>

@@ -44,7 +44,8 @@ async function main(){
   runInNewContext(bridge,{window,document,URL,Headers,Request,location:{href:'https://local.test/assets/machinati/catalogue.html',origin:'https://local.test'},sessionStorage:{getItem:()=>stored,removeItem:()=>{stored=null;}}});
   await window.machinatiReady;return {window,calls,redirects};
  }
- const absent=await boot(true,null);assert.deepEqual(absent.redirects,['/operations']);assert.equal(absent.calls.length,0);
+ const absent=await boot(true,null,401);assert.deepEqual(absent.redirects,['/operations']);assert.equal(absent.calls.length,1);
+ const demo=await boot(true,null,200);assert.equal(demo.redirects.length,0);assert.equal(demo.calls.length,1);
  const expired=await boot(true,'expired',401);assert.deepEqual(expired.redirects,['/operations']);
  const valid=await boot(true,'session-secret');
  await valid.window.fetch('/api/requests');assert.equal(valid.calls.at(-1).init.headers.get('Authorization'),'Bearer session-secret');

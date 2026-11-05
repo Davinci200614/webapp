@@ -22,3 +22,16 @@ def location_key(value):
         for variant in variants:
             value = re.sub(r'(?<!\w)' + re.escape(variant) + r'(?!\w)', canonical, value)
     return value
+
+
+def is_literal_location(value):
+    """Only short place-like replies may bypass semantic understanding."""
+    value = value.strip()
+    if not value or len(value.split()) > 4:
+        return False
+    return re.search(
+        r'(?<!\w)(?:خويا|اخويا|كاينة|كاين|كينا|كين|عندي|عندنا|واحد|شي|الأرض|الارض|ارض|أرض|'
+        r'بغيت|كنقلب|ماعرفتش|فين|واش|قريبة|قريب|قرب|حدا|تقريبا|نعم|لا|تعديل|'
+        r'mon|ma|terrain|terre|situé|situe|située|situee|près|pres|vers|chez|je|nous|my|near|located)(?!\w)',
+        value, flags=re.IGNORECASE,
+    ) is None

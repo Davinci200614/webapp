@@ -6,6 +6,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator, field_valida
 
 from ..auth import Role, require_admin
 from ..db import connect
+from ..request_workflow import dispatch
 from .. import config
 
 router = APIRouter(prefix="/api")
@@ -67,7 +68,7 @@ def _mutations_enabled() -> None:
 @router.get("/machines")
 def list_machines():
     with connect() as db:
-        return [dict(row) for row in db.execute("SELECT * FROM machines ORDER BY id DESC")]
+        return [dict(row) for row in db.execute("SELECT m.*, EXISTS(SELECT 1 FROM request_allocations a WHERE a.resource_kind='machine' AND a.resource_id=m.id AND a.active=1) AS is_allocated FROM machines m ORDER BY m.id DESC")]
 
 
 @router.post("/machines", status_code=201)
@@ -75,6 +76,7 @@ def create_machine(payload: MachineCreate, _: Role = Depends(require_admin)):
     _mutations_enabled()
     data = payload.model_dump(mode="json")
     with connect() as db:
+        db.execute('BEGIN IMMEDIATE')
         cursor = db.execute(
             """INSERT INTO machines(
                 name, machine_type, location, hourly_rate, available, owner_type,
@@ -87,6 +89,7 @@ def create_machine(payload: MachineCreate, _: Role = Depends(require_admin)):
             ),
         )
         row = db.execute("SELECT * FROM machines WHERE id=?", (cursor.lastrowid,)).fetchone()
+        dispatch(db)
     return dict(row)
 
 
@@ -101,6 +104,7 @@ def update_machine(
     if not updates:
         raise HTTPException(status_code=422, detail="At least one field is required")
     with connect() as db:
+        db.execute('BEGIN IMMEDIATE')
         row = db.execute("SELECT * FROM machines WHERE id=?", (machine_id,)).fetchone()
         if not row:
             raise HTTPException(status_code=404, detail="Machine listing not found")
@@ -120,4 +124,5 @@ def update_machine(
             (*updates.values(), machine_id),
         )
         updated = db.execute("SELECT * FROM machines WHERE id=?", (machine_id,)).fetchone()
+        dispatch(db)
     return dict(updated)

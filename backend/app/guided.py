@@ -47,7 +47,7 @@ def build(con, phone, msg_id, reply, context):
         choices = [('الحرث', {'op': 'reply', 'text': 'حرث'}), ('الحصاد', {'op': 'reply', 'text': 'حصاد'})]
     elif context.get('guided') and task.startswith('post_') and pending == 'work':
         choices = [(title, {'op': 'reply', 'text': title}) for title in ('الحصاد', 'الكهرباء', 'البناء', 'السياقة')]
-    elif task == 'none' and context.get('offer'):
+    elif task == 'none' and context.get('offer') and context.pop('show_offer',False):
         choices = [('نعم، نوجد الإعلان', {'op': 'offer'}), ('نرجع للاختيارات', {'op': 'menu'})]
         buttons = True
     context.pop('choices', None)

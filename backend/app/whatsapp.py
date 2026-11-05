@@ -17,3 +17,6 @@ async def send_interactive(phone, payload):
 
 async def download_media(media_id):
     return await _call("download_media", media_id)
+
+async def send_template(phone, name, language, parameters):
+    return await _call("send_template", phone, name, language, parameters)

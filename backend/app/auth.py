@@ -107,6 +107,8 @@ def _session_role(token: str) -> tuple[Role, str] | None:
 
 
 def current_role(authorization: Annotated[str | None, Header()] = None) -> Role:
+    if config.PUBLIC_DEMO_MODE:
+        return "admin"
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Authentication required")
     token = authorization.removeprefix("Bearer ").strip()

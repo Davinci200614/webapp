@@ -51,7 +51,8 @@ class Understanding(BaseModel):
     clarification: str | None = Field(default=None, max_length=240)
 
 
-PROMPT = '''Understand a WhatsApp message in Moroccan Darija, Arabic, French or Arabizi.
+PROMPT = '''Service facts: This business WhatsApp number accepts client conversations and confirmed machinery requests, and receives PDF/JPEG/PNG attachments for pending requests. It is valid to submit via WhatsApp or the website. The administrator can request further documents and the system sends notifications on this same business number. Do not deny these capabilities or invent a personal-phone restriction. Worker/job searches and public employment advertisements are distinct from approved resource requests; do not claim an advertisement is an approved allocation. Never invent mandatory administrative documents. The example checklist and actual administrator instructions come from application data.
+Understand a WhatsApp message in Moroccan Darija, Arabic, French or Arabizi.
 Return structured intent and ONLY facts explicitly stated in the CURRENT message.
 History and draft are context, never facts to copy. Extract urgency_level (normal, urgent, critical), urgency_reason and urgent_window_start/end only when explicitly declared; never invent urgency. Do not write a conversational answer.
 If the user explicitly denies having supplied a field, include it in clear_fields.
@@ -69,6 +70,10 @@ a worker profile, saying "حصاد" answers skills, not a machinery request. Say
 "كنقلب على 4000 dh فشهر وأنا لبغيت نخدم" answers employment details, not a new
 job search. "سميتي حميد بغيت نلقى خدمة فشي كاريان" supplies name and work for
 the current worker profile. Retain post_worker unless the user clearly abandons it.
+Keep the established search goal for short follow-ups. After search_workers in سلا,
+"أو فسلا جديدة ؟" means search_workers with location="سلا جديدة", not clarify.
+"بغيت خدامة راقلتها ليك قبل" in that context still means finding workers.
+Only switch to a job search when the user explicitly says they personally want to work.
 Use last_search context for references: after searching jobs, "نشر إعلان ديالي"
 or "واش ممكن نبوستي هاد أنونس ومنين شيواحد يسول يلقاني" means post_worker.
 After searching workers the same reference means post_job. If unclear, clarify.
@@ -88,7 +93,10 @@ and a contact method the user chooses to share. Pay can be "قابل للتفا�
 not specified in details; never invent a salary. Nothing is published before
 the final delivered summary and explicit standalone confirmation.
 Extract all explicit details at once; use pending field to understand short answers.
-Preserve place names. جوج is a quantity, never a location. مشي/ماشي introduces rejected values.
+Extract ONLY the place name into location, never the whole conversational sentence.
+For example: "خويا كاينة فواحد الأرض فدكالة" means location="دكالة".
+Remove conversational introductions and location prepositions, preserve the actual place name,
+and ask for clarification if no place is stated. Preserve place names. جوج is a quantity, never a location. مشي/ماشي introduces rejected values.
 Normalize tractor/plowing/harvesting. Resolve clear dates using supplied today/timezone.
 Use null for missing or ambiguous facts. Never guess contact consent, names, pay or dates.
 For employment use work=skills/work, details=availability/experience/pay/headcount/dates.
@@ -133,6 +141,7 @@ async def _understand(text, context, provider_override=None):
         raise AIError('conversation_rate_limited')
     budget = config.CONVERSATION_TIMEOUT_SECONDS
     contents = json.dumps({'message': text, **context}, ensure_ascii=False)
+    event('dialogue.understanding_started', provider=provider, model=model, outcome='started')
     # Include queueing, connection, inference and validation in one deadline.
     try:
         with span('dialogue.understanding', provider=provider):
@@ -146,6 +155,7 @@ async def _understand(text, context, provider_override=None):
                                 schema=Understanding.model_json_schema(), model=model)
                             return Understanding.model_validate(result)
                         except IntegrationError as exc:
+                            event('dialogue.understanding_failed', outcome='error', provider=provider, error_code=exc.code)
                             if exc.code == 'openai_rate_limited':
                                 _cooldowns[limiter_key] = time.monotonic() + 60
                                 raise AIError('conversation_rate_limited') from None

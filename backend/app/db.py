@@ -7,7 +7,7 @@ from typing import Iterator
 from . import config
 
 
-SCHEMA_VERSION = 4
+SCHEMA_VERSION = 6
 MIGRATIONS_DIR = Path(__file__).resolve().parents[1] / "migrations"
 
 

@@ -119,3 +119,13 @@ class BotOnlyConfigurationTests(unittest.TestCase):
         with patch.multiple(config,CONVERSATION_PROVIDER='openai',OPENAI_API_KEY='test-key',STT_PROVIDER='openai',META_VERIFY_TOKEN='verify',META_APP_SECRET='secret',META_ACCESS_TOKEN='token',META_PHONE_NUMBER_ID='1234',WHATSAPP_CONTACT_NUMBER='',AUTH_BOOTSTRAP_EMAIL='',AUTH_BOOTSTRAP_PASSWORD=''):
             self.assertEqual(check('whatsapp-voice'),[])
             self.assertTrue(check('dashboard'))
+
+class OpenAIConnectionDiagnosticsTests(unittest.IsolatedAsyncioTestCase):
+    async def test_connect_failure_and_timeout_are_distinguished_safely(self):
+        for error,code in [(httpx.ConnectTimeout('private connection details'),'openai_connect_timeout'),(httpx.ConnectError('private connection details'),'openai_connection_failed')]:
+            def handler(request):raise error
+            async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http:
+                with patch.object(config,'OPENAI_API_KEY','test-key'),self.assertRaises(IntegrationError) as caught:
+                    await OpenAIClient(http).generate_json('synthetic test',instructions='test',schema={})
+            self.assertEqual(caught.exception.code,code)
+            self.assertNotIn('private',str(caught.exception))

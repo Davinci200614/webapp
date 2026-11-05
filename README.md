@@ -265,3 +265,164 @@ Run `npm run test:catalogue` in `frontend` for source-style preservation, origin
 script syntax, authentication gates, token handling and integration regressions.
 Browser visual verification is still pending in this restricted environment;
 see `CATALOGUE_QA.md` for the manual checklist.
+
+## Manual applications, document review and dispatch
+
+Open `/apply` (also linked in the main navigation) to submit a machinery or personnel
+request without WhatsApp. Save the request number and private tracking code shown
+on submission. They allow tracking, PDF/JPEG/PNG uploads (5 MB each, 10 per request),
+and supplementary information from any device. The code is a private access credential;
+it cannot be recovered from a phone number. Uploaded documents are stored in SQLite,
+so include the database in backups and allow for its increased size.
+
+Administrators use `/requests` to inspect documents, record acceptance or refusal,
+request additional information/documents with a message, and approve or refuse requests.
+Operators can read the list but cannot make these decisions or download documents.
+All supplied documents must be accepted before approval. Document acceptance records
+human review; the application does not certify authenticity or verify issuing authorities.
+Applicants see review messages by refreshing their tracking page; this flow does not
+send WhatsApp notifications.
+
+Approval dispatches a real (non-demo), local, compatible resource if available, or marks
+the approved request as waiting on the priority list. Machines must satisfy the existing
+type/location/date rules. Personnel must have an active non-demo worker listing with
+the same normalized location and work/skill. Remote matches require coordination and
+are not automatically assigned. A resource is held exclusively until the assigned request
+is completed or cancelled; future dates do not permit overlapping reservations in this
+initial workflow. Completion/cancellation releases the resource and dispatches the queue.
+Machine inventory edits, worker publication/moderation and the admin queue retry button
+also trigger dispatch, ordered by priority score and then oldest request. Allocations
+record an assignment for cooperative coordination, not an external booking or notification.
+
+Restart the backend to apply migration 005 automatically, and rebuild the frontend with
+`npm run build` (or use the standard launcher). This workflow is independent of the Meta
+webhook URL and can be tested on each developer's clone.
+
+### Client and administrator responsibilities
+
+Clients enter their own details on `/apply` or through the WhatsApp conversation.
+The administrator dashboard contains the request list and review actions, not a
+client submission form. Website applicants upload documents from their private
+tracking page. WhatsApp applicants can send a PDF, JPEG or PNG after confirming a
+request; include `#REQUEST_ID` in the document/photo caption when there is more
+than one pending request. Attachments are associated only with requests whose
+phone matches the Meta sender, and enter the same administrator review queue.
+
+Clients can send `status`, `statut`, `mes demandes`, `طلباتي` or `حالة طلبي` on
+WhatsApp to see their recent requests and outstanding requests for information.
+Reply with the requested information (include `#REQUEST_ID` if multiple requests
+need information). Website and WhatsApp attachments share the same file limits.
+Receiving documents or extra information never approves a request automatically.
+These inbound exchanges still require the configured Meta callback to reach the
+backend; the website submission flow remains independent of it.
+
+Uploaded document/image contents are never passed to an AI model, OCR service or
+transcription service. The application stores filenames and attachments and checks
+only supported file signatures and size limits. The administrator examines the
+contents and records a human assessment of authenticity.
+
+### AI-first conversation
+
+`CONVERSATION_ROUTING=model_first` is the default. Each conversational free-text
+turn (including transcribed audio) is sent to the configured understanding model
+with the active draft and conversation context. The model extracts structured
+intent and facts; application code validates them and performs database actions.
+If understanding fails, deterministic parsing remains available as a fallback.
+Logs show `dialogue.route` with `model` for successful AI understanding and
+`fallback` when rules handle a failed model call. Navigation, explicit confirmations,
+buttons, status queries, supplemental review information and document uploads keep
+their dedicated handling. Documents and images never go to the model.
+
+AI-first routing improves language interpretation but adds inference latency and
+provider usage. Its timeout still uses `CONVERSATION_TIMEOUT_SECONDS`. Set
+`CONVERSATION_ROUTING=rules_first` to restore the previous routing. Restart the
+backend after changing the environment.
+
+### Stopping the launcher
+
+Use **Ctrl+C** to shut down the backend, development frontend, and any tunnel
+started by this launcher. Ctrl+Z now also requests shutdown, rather than suspending
+the launcher while its isolated servers keep running. For a launcher suspended
+before this change, run `fg` in its original terminal, then press Ctrl+C.
+`./start.sh --restart` still stops only verified project servers. Its port check
+allows recently closed connections to expire naturally, while rejecting an
+actual listener on the port.
+
+### AI timeouts and document questions
+
+`POST /webhook/whatsapp` returning 200 acknowledges delivery to the inbox. It does
+not establish that AI understanding succeeded. `GET /api/machines` is website
+inventory polling; webhook events with zero messages need no model processing.
+`dialogue.understanding` with `conversation_timeout` means the understanding
+deadline expired. Check the active provider independently with synthetic text:
+
+```bash
+cd backend
+.venv/bin/python -m scripts.check_ai --timeout 8
+```
+
+The diagnostic reports provider/model, duration and a safe error code; it creates
+no requests and sends no WhatsApp messages. Run it in your normal terminal with
+network access. Connection failures/timeouts are distinguished from response
+errors. OpenAI connections have a five-second connection timeout; the full
+understanding deadline still follows `CONVERSATION_TIMEOUT_SECONDS`.
+
+Questions such as `واش خصني شي وثيقة ؟` receive application document guidance
+immediately, including outstanding administrator instructions for the sender.
+This does not alter the draft or invent required documents. AI timeout replies
+retain the current request summary or pending field instead of resetting to a
+welcome menu.
+
+### Conversational reply wording
+
+With `CONVERSATION_REPLY_STYLE=model` (default with model-first routing), the
+configured model phrases eligible conversational replies after the application
+has determined the actual outcome. It receives the verified answer, recent text
+turns, current task and last search. Attachments are never included. Exact
+confirmation summaries, record listings and menus retain their original text.
+Reply writing cannot change requests, approval, searches or resource allocation.
+It has a separate four-second deadline (`CONVERSATION_REPLY_TIMEOUT_SECONDS`);
+failure retains the verified answer. This adds a short model call and provider
+usage. `CONVERSATION_REPLY_STYLE=template` restores fixed wording. Diagnostics
+show `dialogue.reply_writing` and `dialogue.reply_writing_fallback`.
+
+Short place follow-ups retain the last worker/job search goal. Changing places
+with identical empty results no longer triggers the repeated-answer escape
+message. Advert creation buttons appear on an advert offer, rather than on
+subsequent unrelated questions. Clients searching workers/jobs do not need to
+send arbitrary documents; administrators can request evidence for a submitted
+request when needed.
+
+### Initial checklist and administrator WhatsApp notifications
+
+Migration 006 adds a durable outbound queue. Confirmed WhatsApp machinery requests
+receive an initial example checklist with their request number. Website clients see
+the same checklist in tracking and can opt into WhatsApp updates. `DOCUMENT_CHECKLIST`
+is a semicolon-separated editable list: the defaults are an example service-request
+summary, statement of work/location, cooperative representation evidence if applicable,
+and land-use evidence for machinery if applicable. These are illustrative cooperative
+examples, not a declaration of Moroccan legal requirements. No identity document is
+mandatory by default and no document content is analyzed by AI.
+
+When an administrator requests more information, the exact instructions and request
+number are queued for WhatsApp. Clients can reply with text or attach documents to
+that request. The admin view shows queued, sending, accepted by Meta, waiting for
+client, or failed. Meta acceptance is not proof of delivery. Transient failures retry
+up to five times, and admins can retry a failed notification. Unsent older instructions
+are superseded when a newer document request is saved.
+
+Free-text updates are sent while the client's WhatsApp service window is open.
+Outside that window, configure `WHATSAPP_DOCUMENT_TEMPLATE` to the name of an
+approved Meta template with two body parameters (request number and update text),
+and `WHATSAPP_TEMPLATE_LANGUAGE` to its approved language. Without an approved
+template, the queue displays `waiting_for_client` and resumes when the client sends
+another message; it never claims an unsent update was sent. Template approval must
+be completed in Meta, not in the local app. Existing separate ngrok behavior is unchanged.
+
+### Public presentation without login
+
+Set `PUBLIC_DEMO_MODE=true` in `backend/.env` and restart the backend. All visitors
+can open operator/admin webpages and use their administration actions without a
+login, including through the ngrok link. The navigation displays “Démonstration
+publique” and hides logout. Set `PUBLIC_DEMO_MODE=false` and restart to restore
+normal authentication. Credentials and existing accounts are retained.

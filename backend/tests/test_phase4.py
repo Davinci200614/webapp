@@ -17,6 +17,7 @@ class UnifiedFlowTests(unittest.IsolatedAsyncioTestCase):
         self.addCleanup(self.temp.cleanup)
         p=patch.object(config,'DB_PATH',str(Path(self.temp.name)/'target.db'))
         p.start(); self.addCleanup(p.stop)
+        style=patch.object(config,'CONVERSATION_REPLY_STYLE','template');style.start();self.addCleanup(style.stop)
         db.init_db()
 
     async def test_durable_inbox_survives_enqueue_and_deduplicates(self):
